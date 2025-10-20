@@ -4,7 +4,7 @@ import '../models/habit.dart';
 class HabitProvider with ChangeNotifier {
   // Danh sach thoi quen , luu tam trong bo nho
 
-  List<Habit>_habits = [
+  final List<Habit>_habits = [
     Habit(name: "Uống 2 lít nước", totalDays: 7),
     Habit(name: "Đọc sách 30 phút", totalDays: 5),
   ];
