@@ -1,0 +1,18 @@
+{
+  "@@locale": "vi",
+  "appName": "Thử Thách Mini",
+  "tabChallenges": "Thử thách",
+  "tabStatistics": "Thống kê",
+  "tabAbout": "Thông tin",
+  "noHabits": "Chưa có thử thách nào. Nhấn ➕ để thêm!",
+  "addHabit": "Thêm thử thách mới",
+  "habitName": "Tên thói quen",
+  "habitNameHint": "Ví dụ: Uống 2 lít nước",
+  "durationInDays": "Số ngày thử thách",
+  "create": "Tạo",
+  "day": "Ngày",
+  "congratulations": "Chúc mừng!",
+  "challengeComplete": "Bạn đã hoàn thành xuất sắc thử thách!",
+  "createNewChallenge": "Tạo thử thách mới",
+  "aboutGroupInfo": "Thông tin về nhóm phát triển của bạn..."
+}

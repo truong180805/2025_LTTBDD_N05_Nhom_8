@@ -1,0 +1,18 @@
+{
+  "@@locale": "en",
+  "appName": "Mini Habit Challenge",
+  "tabChallenges": "Challenges",
+  "tabStatistics": "Statistics",
+  "tabAbout": "About",
+  "noHabits": "No habits yet. Press ➕ to add one!",
+  "addHabit": "Add new challenge",
+  "habitName": "Habit Name",
+  "habitNameHint": "E.g., Drink 2L of water",
+  "durationInDays": "Duration (in days)",
+  "create": "Create",
+  "day": "Day",
+  "congratulations": "Congratulations!",
+  "challengeComplete": "You have successfully completed the challenge!",
+  "createNewChallenge": "Create new challenge",
+  "aboutGroupInfo": "Information about your development team..."
+}

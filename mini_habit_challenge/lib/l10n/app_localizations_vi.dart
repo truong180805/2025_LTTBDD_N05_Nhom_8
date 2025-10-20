@@ -1,0 +1,55 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Vietnamese (`vi`).
+class AppLocalizationsVi extends AppLocalizations {
+  AppLocalizationsVi([String locale = 'vi']) : super(locale);
+
+  @override
+  String get appName => 'Thử Thách Mini';
+
+  @override
+  String get tabChallenges => 'Thử thách';
+
+  @override
+  String get tabStatistics => 'Thống kê';
+
+  @override
+  String get tabAbout => 'Thông tin';
+
+  @override
+  String get noHabits => 'Chưa có thử thách nào. Nhấn ➕ để thêm!';
+
+  @override
+  String get addHabit => 'Thêm thử thách mới';
+
+  @override
+  String get habitName => 'Tên thói quen';
+
+  @override
+  String get habitNameHint => 'Ví dụ: Uống 2 lít nước';
+
+  @override
+  String get durationInDays => 'Số ngày thử thách';
+
+  @override
+  String get create => 'Tạo';
+
+  @override
+  String get day => 'Ngày';
+
+  @override
+  String get congratulations => 'Chúc mừng!';
+
+  @override
+  String get challengeComplete => 'Bạn đã hoàn thành xuất sắc thử thách!';
+
+  @override
+  String get createNewChallenge => 'Tạo thử thách mới';
+
+  @override
+  String get aboutGroupInfo => 'Thông tin về nhóm phát triển của bạn...';
+}
