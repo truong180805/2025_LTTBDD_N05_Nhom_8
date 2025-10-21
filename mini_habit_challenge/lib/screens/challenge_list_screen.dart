@@ -11,15 +11,19 @@ class ChallengeListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
+    final habitProvider = Provider.of<HabitProvider>(context, listen: false );
+
     //dung consumer de 'lang nghe' thay doi
     return Consumer<HabitProvider>(
-      builder: (context, HabitProvider, child) {
-        final habits = HabitProvider.habits; //lay danh sach thoi quen
+      builder: (context, consumerProvider, child) {
+        final habits = consumerProvider.habits; //lay danh sach thoi quen
 
         return Scaffold(
-          appBar: AppBar(title: Text(l10n.tabChallenges)),
+          appBar: AppBar(
+            title: Text(l10n.tabChallenges)
+            ),
           body: habits.isEmpty
-              ? Center(child: Text("Chưa có thói quen nào."))
+              ? Center(child: Text(l10n.noHabits))
               : ListView.builder(
                   padding: EdgeInsets.all(8),
                   itemCount: habits.length,
@@ -43,12 +47,67 @@ class ChallengeListScreen extends StatelessWidget {
                   },
                 ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+            _showAddHabitDialog(context, habitProvider, l10n);
+            },
             child: Icon(Icons.add),
-            tooltip: "Thêm thử thách",
+            tooltip: l10n.addHabit,
           ),
         );
       },
     );
   }
+  void _showAddHabitDialog(BuildContext context, HabitProvider provider, AppLocalizations l10n){
+    final nameController = TextEditingController();
+    final daysController = TextEditingController(text: "7");
+
+    showDialog(
+      context: context, 
+      builder: (context){
+        return AlertDialog(
+          title: Text(l10n.addHabit),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  labelText: l10n.habitName,
+                  hintText: l10n.habitNameHint,
+                ),
+                autocorrect: true,
+              ),
+              SizedBox(height: 16,),
+              TextField(
+                controller: daysController,
+                decoration: InputDecoration(
+                  labelText: l10n.durationInDays,
+                ),
+                keyboardType: TextInputType.number,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context), 
+              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                final name = nameController.text;
+                final days = int.tryParse(daysController.text) ?? 7;
+
+                if (name.isNotEmpty){
+                  provider.addHabits(name, days);
+                  Navigator.pop(context);
+                  }
+                },
+                child: Text(l10n.create),
+              ),
+          ],
+        );
+      }
+    );
+  }
 }
+
