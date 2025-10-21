@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:mini_habit_challenge/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,13 +30,7 @@ class MyApp extends StatelessWidget {
       ],
 
       debugShowCheckedModeBanner: false,
-      home: Scaffold(appBar: AppBar(title: Builder(builder: (context){
-        return Text(AppLocalizations.of(context)!.appName);
-      }),),
-      body: Center(
-        child: Text("xin chao"),
-      )
-      ),
+      home: MainScreen(),
     );
   }
 }
