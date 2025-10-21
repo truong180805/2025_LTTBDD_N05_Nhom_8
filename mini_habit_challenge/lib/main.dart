@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:mini_habit_challenge/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
+import 'providers/habit_provider.dart';
 import 'screens/main_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => HabitProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      onGenerateTitle: (context){
+      onGenerateTitle: (context) {
         return AppLocalizations.of(context)!.appName;
       },
       //cau hinh ngon ngu
@@ -22,12 +29,9 @@ class MyApp extends StatelessWidget {
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate
+        GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales:[
-        Locale('vi', ''),
-        Locale('en', ''),
-      ],
+      supportedLocales: [Locale('vi', ''), Locale('en', '')],
 
       debugShowCheckedModeBanner: false,
       home: MainScreen(),
