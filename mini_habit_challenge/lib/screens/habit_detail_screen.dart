@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:percent_indicator/percent_indicator.dart'; // Import
 import '../providers/habit_provider.dart';
 import 'package:mini_habit_challenge/l10n/app_localizations.dart';
+import 'completion_screen.dart';
 
 class HabitDetailScreen extends StatelessWidget {
   final String habitId; // ID để biết đang xem thói quen nào
@@ -16,13 +17,10 @@ class HabitDetailScreen extends StatelessWidget {
 
     return Consumer<HabitProvider>(
       builder: (context, provider, child) {
-        
         final habit = provider.getHabitById(habitId);
 
         return Scaffold(
-          appBar: AppBar(
-            title: Text(habit.name),
-          ),
+          appBar: AppBar(title: Text(habit.name)),
           body: SingleChildScrollView(
             padding: EdgeInsets.all(20),
             child: Column(
@@ -37,19 +35,21 @@ class HabitDetailScreen extends StatelessWidget {
                     center: Text(
                       "${habit.daysCompleted}/${habit.totalDays}\nNgày",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     progressColor: Colors.blueAccent,
                   ),
                 ),
                 SizedBox(height: 30),
 
-                
                 GridView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4, 
+                    crossAxisCount: 4,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                   ),
@@ -60,15 +60,32 @@ class HabitDetailScreen extends StatelessWidget {
 
                     return InkWell(
                       onTap: () {
-                        Provider.of<HabitProvider>(context, listen: false)
-                        .toggleDayCompletion(habit.id, index);
+                        final provider = Provider.of<HabitProvider>(
+                          context,
+                          listen: false,
+                        );
+                        provider.toggleDayCompletion(habit.id, index);
+
+                        final updateHabit = provider.getHabitById(habit.id);
+
+                        if (updateHabit.isCompleted) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CompletionScreen(habitName: updateHabit.name),
+                            ),
+                          );
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(
                           color: isCompleted ? Colors.blueAccent : Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: isCompleted ? Colors.blueAccent : Colors.grey.shade400,
+                            color: isCompleted
+                                ? Colors.blueAccent
+                                : Colors.grey.shade400,
                           ),
                         ),
                         child: Column(
@@ -77,12 +94,18 @@ class HabitDetailScreen extends StatelessWidget {
                             Text(
                               "Ngày $dayNumber",
                               style: TextStyle(
-                                color: isCompleted ? Colors.white : Colors.black,
+                                color: isCompleted
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                             ),
                             Icon(
-                              isCompleted ? Icons.check_circle : Icons.radio_button_unchecked,
-                              color: isCompleted ? Colors.white : Colors.grey.shade400,
+                              isCompleted
+                                  ? Icons.check_circle
+                                  : Icons.radio_button_unchecked,
+                              color: isCompleted
+                                  ? Colors.white
+                                  : Colors.grey.shade400,
                             ),
                           ],
                         ),
