@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:percent_indicator/percent_indicator.dart';
 import 'habit_detail_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:mini_habit_challenge/l10n/app_localizations.dart';
@@ -11,7 +11,7 @@ class ChallengeListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-
+    final theme = Theme.of(context);
     final habitProvider = Provider.of<HabitProvider>(context, listen: false);
 
     //dung consumer de 'lang nghe' thay doi
@@ -20,26 +20,92 @@ class ChallengeListScreen extends StatelessWidget {
         final habits = consumerProvider.habits; //lay danh sach thoi quen
 
         return Scaffold(
-          appBar: AppBar(title: Text(l10n.tabChallenges)),
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primaryContainer, // Dùng màu M3
+                  ),
+                  child: Text(
+                    l10n.appName,
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: theme.colorScheme.onPrimaryContainer,
+                    ),
+                  ),
+                ),
+
+                ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Cài đặt'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.person),
+                  title: Text('Thông tin nhóm'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+          appBar: AppBar(
+            leading: Builder(
+              builder: (context) {
+                return IconButton(
+                  icon: Icon(Icons.menu, size: 30),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  tooltip: MaterialLocalizations.of(
+                    context,
+                  ).openAppDrawerTooltip,
+                );
+              },
+            ),
+
+            title: Text(
+              l10n.tabChallenges,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+            ),
+
+            centerTitle: true,
+
+            elevation: 0,
+            automaticallyImplyLeading: false,
+          ),
           body: habits.isEmpty
-              ? Center(child: Text(l10n.noHabits))
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      l10n.noHabits,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey.shade600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                )
               : ListView.builder(
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.all(12.0),
                   itemCount: habits.length,
                   itemBuilder: (context, index) {
                     final habit = habits[index];
                     return Card(
                       elevation: 3,
                       margin: EdgeInsets.symmetric(vertical: 8),
-                      child: ListTile(
-                        title: Text(
-                          habit.name,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        trailing: Text(
-                          "${habit.daysCompleted}/${habit.totalDays}",
-                          style: TextStyle(fontSize: 16),
-                        ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(12.0),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -49,6 +115,42 @@ class ChallengeListScreen extends StatelessWidget {
                             ),
                           );
                         },
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                habit.name,
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(height: 12.0),
+
+                              LinearPercentIndicator(
+                                percent: habit.progress,
+                                lineHeight: 10.0,
+                                backgroundColor: Colors.grey.shade300,
+                                progressColor: Theme.of(context).primaryColor,
+                                barRadius: Radius.circular(5.0),
+                                animation: true,
+                              ),
+                              SizedBox(height: 8.0),
+
+                              Text(
+                                "${habit.daysCompleted}/${habit.totalDays} ${l10n.day}s",
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                  color: Colors.grey.shade700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     );
                   },
