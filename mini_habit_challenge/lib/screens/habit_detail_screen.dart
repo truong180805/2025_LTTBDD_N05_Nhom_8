@@ -60,7 +60,8 @@ class HabitDetailScreen extends StatelessWidget {
 
                     return InkWell(
                       onTap: () {
-                        
+                        Provider.of<HabitProvider>(context, listen: false)
+                        .toggleDayCompletion(habit.id, index);
                       },
                       child: Container(
                         decoration: BoxDecoration(
