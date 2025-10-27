@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'habit_detail_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:mini_habit_challenge/l10n/app_localizations.dart';
 import '../providers/habit_provider.dart';
@@ -11,7 +12,7 @@ class ChallengeListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    final habitProvider = Provider.of<HabitProvider>(context, listen: false );
+    final habitProvider = Provider.of<HabitProvider>(context, listen: false);
 
     //dung consumer de 'lang nghe' thay doi
     return Consumer<HabitProvider>(
@@ -19,9 +20,7 @@ class ChallengeListScreen extends StatelessWidget {
         final habits = consumerProvider.habits; //lay danh sach thoi quen
 
         return Scaffold(
-          appBar: AppBar(
-            title: Text(l10n.tabChallenges)
-            ),
+          appBar: AppBar(title: Text(l10n.tabChallenges)),
           body: habits.isEmpty
               ? Center(child: Text(l10n.noHabits))
               : ListView.builder(
@@ -41,14 +40,22 @@ class ChallengeListScreen extends StatelessWidget {
                           "${habit.daysCompleted}/${habit.totalDays}",
                           style: TextStyle(fontSize: 16),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  HabitDetailScreen(habitId: habit.id),
+                            ),
+                          );
+                        },
                       ),
                     );
                   },
                 ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-            _showAddHabitDialog(context, habitProvider, l10n);
+              _showAddHabitDialog(context, habitProvider, l10n);
             },
             child: Icon(Icons.add),
             tooltip: l10n.addHabit,
@@ -57,13 +64,18 @@ class ChallengeListScreen extends StatelessWidget {
       },
     );
   }
-  void _showAddHabitDialog(BuildContext context, HabitProvider provider, AppLocalizations l10n){
+
+  void _showAddHabitDialog(
+    BuildContext context,
+    HabitProvider provider,
+    AppLocalizations l10n,
+  ) {
     final nameController = TextEditingController();
     final daysController = TextEditingController(text: "7");
 
     showDialog(
-      context: context, 
-      builder: (context){
+      context: context,
+      builder: (context) {
         return AlertDialog(
           title: Text(l10n.addHabit),
           content: Column(
@@ -77,37 +89,34 @@ class ChallengeListScreen extends StatelessWidget {
                 ),
                 autocorrect: true,
               ),
-              SizedBox(height: 16,),
+              SizedBox(height: 16),
               TextField(
                 controller: daysController,
-                decoration: InputDecoration(
-                  labelText: l10n.durationInDays,
-                ),
+                decoration: InputDecoration(labelText: l10n.durationInDays),
                 keyboardType: TextInputType.number,
               ),
             ],
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context), 
+              onPressed: () => Navigator.pop(context),
               child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
-              ),
-              ElevatedButton(
-                onPressed: () {
+            ),
+            ElevatedButton(
+              onPressed: () {
                 final name = nameController.text;
                 final days = int.tryParse(daysController.text) ?? 7;
 
-                if (name.isNotEmpty){
+                if (name.isNotEmpty) {
                   provider.addHabits(name, days);
                   Navigator.pop(context);
-                  }
-                },
-                child: Text(l10n.create),
-              ),
+                }
+              },
+              child: Text(l10n.create),
+            ),
           ],
         );
-      }
+      },
     );
   }
 }
-
