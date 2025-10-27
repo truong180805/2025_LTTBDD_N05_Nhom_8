@@ -14,5 +14,8 @@
   "congratulations": "Congratulations!",
   "challengeComplete": "You have successfully completed the challenge!",
   "createNewChallenge": "Create new challenge",
-  "aboutGroupInfo": "Information about your development team..."
+  "aboutGroupInfo": "Information about your development team...",
+  "welcomeTo": "Welcome to",
+  "welcomeMessage": "Build great habits, one small day at a time. Let's start your first challenge!",
+  "getStarted": "Get Started"
 }

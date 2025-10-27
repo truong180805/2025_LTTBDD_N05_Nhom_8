@@ -3,8 +3,9 @@ import 'package:mini_habit_challenge/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'screens/welcome_screen.dart';
 import 'providers/habit_provider.dart';
-import 'screens/main_screen.dart';
+
 
 void main() {
   runApp(
@@ -34,7 +35,20 @@ class MyApp extends StatelessWidget {
       supportedLocales: [Locale('vi', ''), Locale('en', '')],
 
       debugShowCheckedModeBanner: false,
-      home: MainScreen(),
+
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ),
+
+      home: const WelcomeScreen(),
     );
   }
 }

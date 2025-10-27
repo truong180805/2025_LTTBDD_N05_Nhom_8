@@ -187,6 +187,24 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Thông tin về nhóm phát triển của bạn...'**
   String get aboutGroupInfo;
+
+  /// No description provided for @welcomeTo.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chào mừng bạn đến với'**
+  String get welcomeTo;
+
+  /// No description provided for @welcomeMessage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xây dựng những thói quen tốt, mỗi ngày một chút. Hãy bắt đầu thử thách đầu tiên của bạn!'**
+  String get welcomeMessage;
+
+  /// No description provided for @getStarted.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bắt đầu ngay'**
+  String get getStarted;
 }
 
 class _AppLocalizationsDelegate

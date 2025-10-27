@@ -53,4 +53,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutGroupInfo => 'Information about your development team...';
+
+  @override
+  String get welcomeTo => 'Welcome to';
+
+  @override
+  String get welcomeMessage =>
+      'Build great habits, one small day at a time. Let\'s start your first challenge!';
+
+  @override
+  String get getStarted => 'Get Started';
 }

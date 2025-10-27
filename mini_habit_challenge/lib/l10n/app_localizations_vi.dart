@@ -52,4 +52,14 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get aboutGroupInfo => 'Thông tin về nhóm phát triển của bạn...';
+
+  @override
+  String get welcomeTo => 'Chào mừng bạn đến với';
+
+  @override
+  String get welcomeMessage =>
+      'Xây dựng những thói quen tốt, mỗi ngày một chút. Hãy bắt đầu thử thách đầu tiên của bạn!';
+
+  @override
+  String get getStarted => 'Bắt đầu ngay';
 }
