@@ -6,12 +6,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'screens/welcome_screen.dart';
 import 'providers/habit_provider.dart';
-
+import 'providers/settings_provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => HabitProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => HabitProvider()),
+        ChangeNotifierProvider(create: (context) => SettingsProvider()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -22,39 +25,59 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateTitle: (context) {
-        return AppLocalizations.of(context)!.appName;
-      },
-      //cau hinh ngon ngu
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [Locale('vi', ''), Locale('en', '')],
+    return Consumer<SettingsProvider>(
+      builder: (context, settingsProvider, child) {
+        return MaterialApp(
+          onGenerateTitle: (context) {
+            return AppLocalizations.of(context)!.appName;
+          },
+          
+          // --- (PHẦN CẬP NHẬT QUAN TRỌNG) ---
+          
+          // 4. Lắng nghe Ngôn ngữ
+          locale: settingsProvider.locale, 
+          
+          // 5. Lắng nghe Chế độ Sáng/Tối
+          themeMode: settingsProvider.themeMode, 
+          
+          // --- (HẾT PHẦN CẬP NHẬT) ---
 
-      debugShowCheckedModeBanner: false,
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            Locale('vi', ''), // Tiếng Việt
+            Locale('en', ''), // Tiếng Anh
+          ],
+          
+          debugShowCheckedModeBanner: false,
 
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.teal,
-          brightness: Brightness.light,
-          ),
-        fontFamily: GoogleFonts.poppins().fontFamily,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+          // --- (Theme Sáng - Light) ---
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.teal,
+              brightness: Brightness.light,
             ),
+            fontFamily: GoogleFonts.poppins().fontFamily,
           ),
-        ),
-      ),
 
-      home: const WelcomeScreen(),
+          // --- (Theme Tối - Dark) ---
+          darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.teal,
+              brightness: Brightness.dark, // <-- Chế độ tối
+            ),
+            fontFamily: GoogleFonts.poppins().fontFamily,
+          ),
+          
+          home: const WelcomeScreen(),
+        );
+      },
     );
   }
 }
