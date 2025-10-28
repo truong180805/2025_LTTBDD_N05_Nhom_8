@@ -8,8 +8,7 @@ DateTime _dateOnly(DateTime dt) {
 }
 
 class HabitProvider with ChangeNotifier {
-  List<Habit> _habits = [
-    // --- (DỮ LIỆU MẪU MỚI) ---
+   final List<Habit> _habits = [
     Habit(
       name: "Uống 2 lít nước",
       type: HabitType.daily, // Hàng ngày
@@ -25,7 +24,25 @@ class HabitProvider with ChangeNotifier {
     ),
   ];
 
-  // --- (GETTER MỚI) Phân loại 2 danh sách ---
+  List<Habit> _completedHabits = [];
+  Habit? _justCompletedHabit;
+
+  List<Habit> get completedHabits => _completedHabits;
+
+  Habit? get justCompletedHabit => _justCompletedHabit;
+
+  void clearJustCompletedHabit() {
+    _justCompletedHabit = null;
+  }
+
+  void _handleHabitCompletionCheck(Habit habit) {
+    if (habit.isChallengeFullyCompleted) { 
+      _habits.remove(habit); // 2. Xóa khỏi danh sách chính
+      _completedHabits.add(habit); // 3. Thêm vào danh sách hoàn thành
+      _justCompletedHabit = habit; // 4. Đặt cờ để UI biết và kích hoạt confetti
+    }
+  }
+
   List<Habit> get habits => _habits;
   
   List<Habit> get dailyHabits {
@@ -68,7 +85,7 @@ class HabitProvider with ChangeNotifier {
       // Lấy trạng thái hiện tại (hoặc false nếu chưa có) và đảo ngược nó
       final bool isCompleted = habit.completionLog[today] ?? false;
       habit.completionLog[today] = !isCompleted;
-
+      _handleHabitCompletionCheck(habit);
       notifyListeners();
     } catch (e) {
       print("Lỗi khi toggle ngày: $e");
@@ -84,7 +101,7 @@ class HabitProvider with ChangeNotifier {
       // Đảo ngược trạng thái
       final bool isCompleted = habit.completionLog[dateOnly] ?? false;
       habit.completionLog[dateOnly] = !isCompleted;
-
+      _handleHabitCompletionCheck(habit);
       notifyListeners();
     } catch (e) {
       print("Lỗi khi toggle ngày $date: $e");

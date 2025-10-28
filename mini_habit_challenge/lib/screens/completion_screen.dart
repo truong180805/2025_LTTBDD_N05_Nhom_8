@@ -62,7 +62,7 @@ class _CompletionScreenState extends State<CompletionScreen> {
                   child: Text(l10n.createNewChallenge),
                   onPressed: () {
                     // Quay về màn hình đầu tiên
-                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.pop(context);
                   },
                 ),
               ],

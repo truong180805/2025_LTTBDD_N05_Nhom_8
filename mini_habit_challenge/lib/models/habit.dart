@@ -64,4 +64,14 @@ class Habit {
 DateTime _dateOnly(DateTime dt) {
   return DateTime(dt.year, dt.month, dt.day);
 }
+  bool get isChallengeFullyCompleted {
+    // 1. Nếu là 'daily' hoặc không có 'totalDays', nó không bao giờ hoàn thành
+    if (type == HabitType.daily || totalDays == null || totalDays == 0) return false;
+    
+    // 2. Đếm số ngày đã tick 'true'
+    int completedCount = completionLog.values.where((v) => v == true).length;
+    
+    // 3. So sánh với tổng số ngày
+    return completedCount >= totalDays!;
+  }
 }

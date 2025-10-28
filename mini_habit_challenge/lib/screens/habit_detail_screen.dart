@@ -67,6 +67,23 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
         final habit = provider.getHabitById(widget.habitId);
         final today = _dateOnly(DateTime.now());
 
+        if (provider.justCompletedHabit != null && provider.justCompletedHabit!.id == habit.id) {
+          // Dùng addPostFrameCallback để điều hướng *sau khi* build xong
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            // Điều hướng đến màn hình Chúc mừng
+            // Dùng pushReplacement để màn hình chi tiết này biến mất
+            Navigator.pushReplacement( 
+              context,
+              MaterialPageRoute(
+                builder: (context) => CompletionScreen(
+                  habitName: provider.justCompletedHabit!.name
+                ),
+              ),
+            );
+            provider.clearJustCompletedHabit(); // Xóa cờ
+          });
+        }
+
         return Scaffold(
           appBar: AppBar(
             title: Text(habit.name),
@@ -167,9 +184,9 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                       // (QUAN TRỌNG) Xử lý khi nhấn vào 1 ngày
                       onDaySelected: (selectedDay, focusedDay) {
                         // Không cho phép tick vào ngày tương lai
-                        if (selectedDay.isAfter(today)) {
-                          return;
-                        }
+                        //if (selectedDay.isAfter(today)) {
+                        //  return;
+                        //}
                         
                         // Gọi hàm toggle mới trong provider
                         provider.toggleDateCompletion(habit.id, selectedDay);
@@ -210,6 +227,18 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                   ),
                 ),
               ],
+            ),
+          ),
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              // Gọi hàm tick "hôm nay" của provider
+              provider.toggleTodayCompletion(habit.id);
+            },
+            label: Text(
+              habit.isCompletedToday ? "Đã tick Hôm nay" : "Tick Hôm nay",
+            ),
+            icon: Icon(
+              habit.isCompletedToday ? Icons.check_box : Icons.check_box_outline_blank
             ),
           ),
         );

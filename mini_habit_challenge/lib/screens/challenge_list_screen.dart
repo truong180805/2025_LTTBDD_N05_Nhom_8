@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:mini_habit_challenge/l10n/app_localizations.dart';
 import '../providers/habit_provider.dart';
 import '../models/habit.dart';
-
+import 'completion_screen.dart';
 
  class ChallengeListScreen extends StatelessWidget {
   const ChallengeListScreen({Key? key}) : super(key: key);
@@ -46,6 +46,29 @@ import '../models/habit.dart';
         builder: (context, provider, child) {
           final dailyHabits = provider.dailyHabits;
           final challengeHabits = provider.challengeHabits;
+
+          final completedHabit = provider.justCompletedHabit; // Đọc 1 lần
+          
+          if (completedHabit != null) {
+            
+            // (MỚI) Kiểm tra xem đây có phải là màn hình đang xem không
+            final route = ModalRoute.of(context);
+            if (route != null && route.isCurrent) { 
+            
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                // Chỉ điều hướng nếu là màn hình hiện tại
+                Navigator.push( 
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CompletionScreen(
+                      habitName: completedHabit.name // Dùng biến local
+                    ),
+                  ),
+                );
+                provider.clearJustCompletedHabit(); // Xóa cờ
+              });
+            }
+          }
 
           return SingleChildScrollView(
             padding: EdgeInsets.all(16.0),
