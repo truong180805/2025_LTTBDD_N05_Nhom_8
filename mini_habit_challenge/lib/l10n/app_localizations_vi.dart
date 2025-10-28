@@ -62,4 +62,29 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get getStarted => 'Bắt đầu ngay';
+
+  @override
+  String get deleteHabit => 'Xóa Thói quen';
+
+  @override
+  String get deleteHabitConfirm =>
+      'Bạn có chắc chắn muốn xóa thói quen này? Mọi tiến độ sẽ bị mất.';
+
+  @override
+  String get delete => 'Xóa';
+
+  @override
+  String get currentStreak => 'Chuỗi hiện tại';
+
+  @override
+  String get reminder => 'Nhắc nhở';
+
+  @override
+  String get noReminderSet => 'Chưa đặt nhắc nhở';
+
+  @override
+  String get startDate => 'Ngày bắt đầu';
+
+  @override
+  String get progress => 'Tiến độ';
 }

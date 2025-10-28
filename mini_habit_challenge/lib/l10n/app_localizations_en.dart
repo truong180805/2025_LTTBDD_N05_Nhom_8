@@ -63,4 +63,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get getStarted => 'Get Started';
+
+  @override
+  String get deleteHabit => 'Delete Habit';
+
+  @override
+  String get deleteHabitConfirm =>
+      'Are you sure you want to delete this habit? All progress will be lost.';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get currentStreak => 'Current Streak';
+
+  @override
+  String get reminder => 'Reminder';
+
+  @override
+  String get noReminderSet => 'No reminder set';
+
+  @override
+  String get startDate => 'Start Date';
+
+  @override
+  String get progress => 'Progress';
 }

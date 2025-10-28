@@ -17,5 +17,13 @@
   "aboutGroupInfo": "Information about your development team...",
   "welcomeTo": "Welcome to",
   "welcomeMessage": "Build great habits, one small day at a time. Let's start your first challenge!",
-  "getStarted": "Get Started"
+  "getStarted": "Get Started",
+  "deleteHabit": "Delete Habit",
+  "deleteHabitConfirm": "Are you sure you want to delete this habit? All progress will be lost.",
+  "delete": "Delete",
+  "currentStreak": "Current Streak",
+  "reminder": "Reminder",
+  "noReminderSet": "No reminder set",
+  "startDate": "Start Date",
+  "progress": "Progress"
 }

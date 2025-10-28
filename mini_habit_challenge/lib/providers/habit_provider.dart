@@ -1,44 +1,99 @@
+// lib/providers/habit_provider.dart
 import 'package:flutter/material.dart';
 import '../models/habit.dart';
 
-class HabitProvider with ChangeNotifier {
-  // Danh sach thoi quen , luu tam trong bo nho
+// Hàm tiện ích (private) để chuẩn hóa DateTime (chỉ lấy Ngày, bỏ Giờ/Phút)
+DateTime _dateOnly(DateTime dt) {
+  return DateTime(dt.year, dt.month, dt.day);
+}
 
-  final List<Habit>_habits = [
-    Habit(name: "Uống 2 lít nước", totalDays: 7),
-    Habit(name: "Đọc sách 30 phút", totalDays: 5),
+class HabitProvider with ChangeNotifier {
+  List<Habit> _habits = [
+    // --- (DỮ LIỆU MẪU MỚI) ---
+    Habit(
+      name: "Uống 2 lít nước",
+      type: HabitType.daily, // Hàng ngày
+      startDate: DateTime.now().subtract(Duration(days: 2)), // Bắt đầu 2 hôm trước
+      reminderTime: TimeOfDay(hour: 8, minute: 0),
+    ),
+    Habit(
+      name: "Thử thách 7 ngày đọc sách",
+      type: HabitType.challenge, // Thử thách
+      startDate: DateTime.now().subtract(Duration(days: 1)), // Bắt đầu hôm qua
+      totalDays: 7,
+      reminderTime: TimeOfDay(hour: 21, minute: 0),
+    ),
   ];
 
+  // --- (GETTER MỚI) Phân loại 2 danh sách ---
   List<Habit> get habits => _habits;
+  
+  List<Habit> get dailyHabits {
+    return _habits.where((h) => h.type == HabitType.daily).toList();
+  }
 
-  //ham them thoi quen moi
-  void addHabits(String name, int totalDays) {
-    final newHabit = Habit(name: name, totalDays: totalDays);
+  List<Habit> get challengeHabits {
+     return _habits.where((h) => h.type == HabitType.challenge).toList();
+  }
+  
+  Habit getHabitById(String habitId) {
+    return _habits.firstWhere((h) => h.id == habitId);
+  }
+
+  // --- (HÀM CẬP NHẬT) Thêm Thói quen ---
+  void addHabit({
+    required String name,
+    required HabitType type,
+    int? totalDays,
+    TimeOfDay? reminderTime,
+  }) {
+    final newHabit = Habit(
+      name: name,
+      type: type,
+      startDate: _dateOnly(DateTime.now()), // Ngày bắt đầu là hôm nay
+      totalDays: type == HabitType.challenge ? totalDays : null,
+      reminderTime: reminderTime,
+    );
     _habits.add(newHabit);
-
-    //de cac widget cap nhap
     notifyListeners();
   }
 
-  //ham khi nguoi dung tich hoac untick 1 ngay
-  void toggleDayCompletion(String habitId, int dayIndex) {
-    try{
-      // tim thoi quen theo ID
-      final habit = _habits.firstWhere((h) => h.id == habitId);
+  // --- (HÀM CẬP NHẬT) Tick/Bỏ tick một ngày ---
+  // Chúng ta sẽ tick cho ngày 'hôm nay'
+  void toggleTodayCompletion(String habitId) {
+    try {
+      final habit = getHabitById(habitId);
+      final today = _dateOnly(DateTime.now());
 
-      //dao trang thai true,false
-      habit.completionStatus[dayIndex] = !habit.completionStatus[dayIndex];
+      // Lấy trạng thái hiện tại (hoặc false nếu chưa có) và đảo ngược nó
+      final bool isCompleted = habit.completionLog[today] ?? false;
+      habit.completionLog[today] = !isCompleted;
 
-      //thong bao cap nhap
       notifyListeners();
-
-    } catch (e){
-      print("Lỗi: Không tìm thấy thói quen với ID $habitId");
+    } catch (e) {
+      print("Lỗi khi toggle ngày: $e");
     }
   }
 
-  // Ham lay thoi quen
-  Habit getHabitById(String habitId){
-    return _habits.firstWhere((h)=> h.id == habitId);
+  void toggleDateCompletion(String habitId, DateTime date) {
+    try {
+      final habit = getHabitById(habitId);
+      // Chuẩn hóa ngày (loại bỏ giờ/phút)
+      final dateOnly = _dateOnly(date); 
+
+      // Đảo ngược trạng thái
+      final bool isCompleted = habit.completionLog[dateOnly] ?? false;
+      habit.completionLog[dateOnly] = !isCompleted;
+
+      notifyListeners();
+    } catch (e) {
+      print("Lỗi khi toggle ngày $date: $e");
+    }
+  }
+
+  // --- (HÀM MỚI) Xóa/Hủy thói quen ---
+  void deleteHabit(String habitId) {
+    _habits.removeWhere((h) => h.id == habitId);
+    notifyListeners();
   }
 }

@@ -205,6 +205,54 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Bắt đầu ngay'**
   String get getStarted;
+
+  /// No description provided for @deleteHabit.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xóa Thói quen'**
+  String get deleteHabit;
+
+  /// No description provided for @deleteHabitConfirm.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn có chắc chắn muốn xóa thói quen này? Mọi tiến độ sẽ bị mất.'**
+  String get deleteHabitConfirm;
+
+  /// No description provided for @delete.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xóa'**
+  String get delete;
+
+  /// No description provided for @currentStreak.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chuỗi hiện tại'**
+  String get currentStreak;
+
+  /// No description provided for @reminder.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhắc nhở'**
+  String get reminder;
+
+  /// No description provided for @noReminderSet.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa đặt nhắc nhở'**
+  String get noReminderSet;
+
+  /// No description provided for @startDate.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày bắt đầu'**
+  String get startDate;
+
+  /// No description provided for @progress.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiến độ'**
+  String get progress;
 }
 
 class _AppLocalizationsDelegate

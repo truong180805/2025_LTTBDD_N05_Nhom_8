@@ -17,5 +17,13 @@
   "aboutGroupInfo": "Thông tin về nhóm phát triển của bạn...",
   "welcomeTo": "Chào mừng bạn đến với",
   "welcomeMessage": "Xây dựng những thói quen tốt, mỗi ngày một chút. Hãy bắt đầu thử thách đầu tiên của bạn!",
-  "getStarted": "Bắt đầu ngay"
+  "getStarted": "Bắt đầu ngay",
+  "deleteHabit": "Xóa Thói quen",
+  "deleteHabitConfirm": "Bạn có chắc chắn muốn xóa thói quen này? Mọi tiến độ sẽ bị mất.",
+  "delete": "Xóa",
+  "currentStreak": "Chuỗi hiện tại",
+  "reminder": "Nhắc nhở",
+  "noReminderSet": "Chưa đặt nhắc nhở",
+  "startDate": "Ngày bắt đầu",
+  "progress": "Tiến độ"
 }

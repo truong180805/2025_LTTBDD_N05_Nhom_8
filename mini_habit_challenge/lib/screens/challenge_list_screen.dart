@@ -4,221 +4,326 @@ import 'habit_detail_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:mini_habit_challenge/l10n/app_localizations.dart';
 import '../providers/habit_provider.dart';
+import '../models/habit.dart';
 
-class ChallengeListScreen extends StatelessWidget {
-  const ChallengeListScreen({super.key});
+
+ class ChallengeListScreen extends StatelessWidget {
+  const ChallengeListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    final habitProvider = Provider.of<HabitProvider>(context, listen: false);
 
-    //dung consumer de 'lang nghe' thay doi
-    return Consumer<HabitProvider>(
-      builder: (context, consumerProvider, child) {
-        final habits = consumerProvider.habits; //lay danh sach thoi quen
+    return Scaffold(
+      // (Menu trượt và AppBar căn giữa giữ nguyên như bước trước)
+      drawer: Drawer(
+        // ... (Code của Drawer giữ nguyên)
+      ),
+      appBar: AppBar(
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: Icon(Icons.menu, size: 30),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        title: Text(
+          l10n.tabChallenges,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
+        centerTitle: true,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+      ),
 
-        return Scaffold(
-          drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primaryContainer, // Dùng màu M3
+      // --- (BODY MỚI) ---
+      // Body bây giờ sẽ hiển thị 2 danh sách riêng biệt
+      body: Consumer<HabitProvider>(
+        builder: (context, provider, child) {
+          final dailyHabits = provider.dailyHabits;
+          final challengeHabits = provider.challengeHabits;
+
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 1. Tiêu đề "Hàng ngày"
+                Text(
+                  "Hàng ngày", // (Sẽ thêm vào l10n sau)
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
-                  child: Text(
-                    l10n.appName,
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: theme.colorScheme.onPrimaryContainer,
-                    ),
+                ),
+                SizedBox(height: 8),
+                _buildHabitList(context, dailyHabits, provider),
+
+                SizedBox(height: 24),
+
+                // 2. Tiêu đề "Thử thách"
+                Text(
+                  "Thử thách", // (Sẽ thêm vào l10n sau)
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-
-                ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text('Cài đặt'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.person),
-                  title: Text('Thông tin nhóm'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
+                SizedBox(height: 8),
+                _buildHabitList(context, challengeHabits, provider),
               ],
             ),
+          );
+        },
+      ),
+
+      // Nút FAB sẽ gọi Dialog (Widget) mới
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            // (3) Gọi Dialog mới
+            builder: (context) => _AddHabitDialog(),
+          );
+        },
+        child: Icon(Icons.add),
+        tooltip: l10n.addHabit,
+      ),
+    );
+  }
+
+  // --- (HÀM HELPER MỚI) Để vẽ danh sách ---
+  // Dùng để vẽ Card thói quen (đã cập nhật logic)
+  Widget _buildHabitList(BuildContext context, List<Habit> habits, HabitProvider provider) {
+    if (habits.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20.0),
+        child: Text(
+          "Chưa có thói quen nào trong mục này.",
+          style: TextStyle(color: Colors.grey.shade600),
+        ),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: habits.length,
+      shrinkWrap: true, // Để nằm trong SingleChildScrollView
+      physics: NeverScrollableScrollPhysics(), // Không cho cuộn lồng nhau
+      itemBuilder: (context, index) {
+        final habit = habits[index];
+        final bool isDoneToday = habit.isCompletedToday; // Logic mới
+
+        return Card(
+          elevation: 2,
+          margin: EdgeInsets.symmetric(vertical: 8.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
           ),
-          appBar: AppBar(
-            leading: Builder(
-              builder: (context) {
-                return IconButton(
-                  icon: Icon(Icons.menu, size: 30),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  tooltip: MaterialLocalizations.of(
-                    context,
-                  ).openAppDrawerTooltip,
-                );
-              },
-            ),
-
-            title: Text(
-              l10n.tabChallenges,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-            ),
-
-            centerTitle: true,
-
-            elevation: 0,
-            automaticallyImplyLeading: false,
-          ),
-          body: habits.isEmpty
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      l10n.noHabits,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey.shade600,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+            child: Row(
+              children: [
+                // (MỚI) Nút tick 'Hôm nay'
+                IconButton(
+                  icon: Icon(
+                    isDoneToday ? Icons.check_box : Icons.check_box_outline_blank,
+                    color: isDoneToday ? Theme.of(context).colorScheme.primary : Colors.grey,
+                    size: 28,
                   ),
-                )
-              : ListView.builder(
-                  padding: EdgeInsets.all(12.0),
-                  itemCount: habits.length,
-                  itemBuilder: (context, index) {
-                    final habit = habits[index];
-                    return Card(
-                      elevation: 3,
-                      margin: EdgeInsets.symmetric(vertical: 8),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(12.0),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  HabitDetailScreen(habitId: habit.id),
-                            ),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                habit.name,
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(height: 12.0),
-
-                              LinearPercentIndicator(
-                                percent: habit.progress,
-                                lineHeight: 10.0,
-                                backgroundColor: Colors.grey.shade300,
-                                progressColor: Theme.of(context).primaryColor,
-                                barRadius: Radius.circular(5.0),
-                                animation: true,
-                              ),
-                              SizedBox(height: 8.0),
-
-                              Text(
-                                "${habit.daysCompleted}/${habit.totalDays} ${l10n.day}s",
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: Colors.grey.shade700,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
+                  onPressed: () {
+                    // Gọi hàm toggle mới
+                    provider.toggleTodayCompletion(habit.id);
                   },
                 ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              _showAddHabitDialog(context, habitProvider, l10n);
-            },
-            child: Icon(Icons.add),
-            tooltip: l10n.addHabit,
+                // Phần nội dung (tên, chuỗi, tiến độ)
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      // Vẫn đi đến màn hình chi tiết (dù nó đang lỗi)
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HabitDetailScreen(habitId: habit.id),
+                        ),
+                      );
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          habit.name,
+                          style: TextStyle(
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        // (MỚI) Hiển thị Chuỗi (Streak)
+                        Text(
+                          "🔥 Chuỗi: ${habit.streak} ngày",
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.deepOrange,
+                          ),
+                        ),
+                        // (MỚI) Chỉ hiển thị tiến độ cho loại 'Challenge'
+                        if (habit.type == HabitType.challenge)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: LinearPercentIndicator(
+                              percent: habit.progress,
+                              lineHeight: 8.0,
+                              backgroundColor: Colors.grey.shade300,
+                              progressColor: Theme.of(context).primaryColor,
+                              barRadius: Radius.circular(4.0),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+                Icon(Icons.chevron_right, color: Colors.grey),
+              ],
+            ),
           ),
         );
       },
     );
   }
+}
 
-  void _showAddHabitDialog(
-    BuildContext context,
-    HabitProvider provider,
-    AppLocalizations l10n,
-  ) {
-    final nameController = TextEditingController();
-    final daysController = TextEditingController(text: "7");
+// --- (PHẦN 2: DIALOG THÊM MỚI - DẠNG STATEFULWIDGET) ---
+// Chúng ta tạo một Widget riêng để quản lý state của Dialog
+class _AddHabitDialog extends StatefulWidget {
+  const _AddHabitDialog({Key? key}) : super(key: key);
 
-    showDialog(
+  @override
+  _AddHabitDialogState createState() => _AddHabitDialogState();
+}
+
+class _AddHabitDialogState extends State<_AddHabitDialog> {
+  // Các biến state cho Dialog
+  final _nameController = TextEditingController();
+  final _daysController = TextEditingController(text: "7");
+  HabitType _selectedType = HabitType.daily; // Mặc định là 'Hàng ngày'
+  TimeOfDay? _selectedTime; // Giờ nhắc nhở (nullable)
+
+  // Hàm hiển thị chọn giờ
+  Future<void> _pickTime() async {
+    final time = await showTimePicker(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(l10n.addHabit),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  labelText: l10n.habitName,
-                  hintText: l10n.habitNameHint,
-                ),
-                autocorrect: true,
+      initialTime: TimeOfDay.now(),
+    );
+    if (time != null) {
+      setState(() {
+        _selectedTime = time;
+      });
+    }
+  }
+
+  // Hàm xử lý khi nhấn "Tạo"
+  void _submitHabit() {
+    final name = _nameController.text;
+    if (name.isEmpty) {
+      // (Có thể thêm thông báo lỗi)
+      return;
+    }
+
+    final days = int.tryParse(_daysController.text) ?? 7;
+    
+    // Gọi hàm addHabit mới từ Provider
+    Provider.of<HabitProvider>(context, listen: false).addHabit(
+      name: name,
+      type: _selectedType,
+      totalDays: _selectedType == HabitType.challenge ? days : null,
+      reminderTime: _selectedTime,
+    );
+
+    Navigator.pop(context); // Đóng Dialog
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return AlertDialog(
+      title: Text(l10n.addHabit),
+      // Dùng SingleChildScrollView để tránh tràn pixel khi bàn phím hiện
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 1. Tên thói quen
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                labelText: l10n.habitName,
+                hintText: l10n.habitNameHint,
               ),
-              SizedBox(height: 16),
-              TextField(
-                controller: daysController,
-                decoration: InputDecoration(labelText: l10n.durationInDays),
+              autofocus: true,
+            ),
+            SizedBox(height: 20),
+
+            // 2. Chọn Loại (Hàng ngày / Thử thách)
+            Text("Loại thói quen:", style: TextStyle(fontWeight: FontWeight.bold)),
+            ToggleButtons(
+              children: [
+                Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: Text("Hàng ngày")),
+                Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: Text("Thử thách")),
+              ],
+              isSelected: [
+                _selectedType == HabitType.daily,
+                _selectedType == HabitType.challenge,
+              ],
+              onPressed: (index) {
+                setState(() {
+                  _selectedType = (index == 0) ? HabitType.daily : HabitType.challenge;
+                });
+              },
+              borderRadius: BorderRadius.circular(8),
+              constraints: BoxConstraints(minWidth: 100, minHeight: 40),
+            ),
+            SizedBox(height: 16),
+
+            // 3. (MỚI) Chỉ hiển thị khi là 'Thử thách'
+            Visibility(
+              visible: _selectedType == HabitType.challenge,
+              child: TextField(
+                controller: _daysController,
+                decoration: InputDecoration(
+                  labelText: l10n.durationInDays,
+                ),
                 keyboardType: TextInputType.number,
               ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
             ),
-            ElevatedButton(
-              onPressed: () {
-                final name = nameController.text;
-                final days = int.tryParse(daysController.text) ?? 7;
+            SizedBox(height: 16),
 
-                if (name.isNotEmpty) {
-                  provider.addHabits(name, days);
-                  Navigator.pop(context);
-                }
-              },
-              child: Text(l10n.create),
+            // 4. (MỚI) Chọn giờ nhắc nhở
+            Text("Giờ nhắc nhở (Tùy chọn):", style: TextStyle(fontWeight: FontWeight.bold)),
+            TextButton(
+              onPressed: _pickTime,
+              child: Text(
+                _selectedTime == null
+                    ? "Chọn giờ"
+                    : _selectedTime!.format(context), // "10:30 AM"
+              ),
             ),
           ],
-        );
-      },
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+        ),
+        ElevatedButton(
+          onPressed: _submitHabit,
+          child: Text(l10n.create),
+        ),
+      ],
     );
   }
 }
