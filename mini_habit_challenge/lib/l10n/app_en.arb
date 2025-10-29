@@ -34,5 +34,12 @@
   "themeMode": "Theme Mode",
   "light": "Light",
   "dark": "Dark",
-  "system": "System"
+  "system": "System",
+  "overall": "Overall",
+  "daily": "Daily",
+  "challenges": "Challenges",
+  "overallProgress": "Overall Progress",
+  "todaysProgress": "Today's Progress",
+  "completedChallenges": "Completed Challenges",
+  "activeHabits": "Active Habits"
 }

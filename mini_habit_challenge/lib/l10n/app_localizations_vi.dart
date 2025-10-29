@@ -114,4 +114,25 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get system => 'Hệ thống';
+
+  @override
+  String get overall => 'Tổng quan';
+
+  @override
+  String get daily => 'Hàng ngày';
+
+  @override
+  String get challenges => 'Thử thách';
+
+  @override
+  String get overallProgress => 'Tiến độ Tổng';
+
+  @override
+  String get todaysProgress => 'Hoàn thành Hôm nay';
+
+  @override
+  String get completedChallenges => 'Thử thách đã hoàn thành';
+
+  @override
+  String get activeHabits => 'Các thói quen đang thực hiện';
 }

@@ -115,4 +115,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get system => 'System';
+
+  @override
+  String get overall => 'Overall';
+
+  @override
+  String get daily => 'Daily';
+
+  @override
+  String get challenges => 'Challenges';
+
+  @override
+  String get overallProgress => 'Overall Progress';
+
+  @override
+  String get todaysProgress => 'Today\'s Progress';
+
+  @override
+  String get completedChallenges => 'Completed Challenges';
+
+  @override
+  String get activeHabits => 'Active Habits';
 }

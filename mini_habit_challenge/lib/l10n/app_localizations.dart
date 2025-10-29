@@ -307,6 +307,48 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Hệ thống'**
   String get system;
+
+  /// No description provided for @overall.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tổng quan'**
+  String get overall;
+
+  /// No description provided for @daily.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hàng ngày'**
+  String get daily;
+
+  /// No description provided for @challenges.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử thách'**
+  String get challenges;
+
+  /// No description provided for @overallProgress.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiến độ Tổng'**
+  String get overallProgress;
+
+  /// No description provided for @todaysProgress.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hoàn thành Hôm nay'**
+  String get todaysProgress;
+
+  /// No description provided for @completedChallenges.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thử thách đã hoàn thành'**
+  String get completedChallenges;
+
+  /// No description provided for @activeHabits.
+  ///
+  /// In vi, this message translates to:
+  /// **'Các thói quen đang thực hiện'**
+  String get activeHabits;
 }
 
 class _AppLocalizationsDelegate

@@ -29,6 +29,31 @@ class HabitProvider with ChangeNotifier {
 
   List<Habit> get completedHabits => _completedHabits;
 
+  int get longestOverallStreak {
+  if (_habits.isEmpty) return 0; // Nếu không có thói quen, chuỗi là 0
+
+  int longestStreak = 0;
+  // Lặp qua từng thói quen
+  for (final habit in _habits) {
+    // Nếu chuỗi của thói quen này lớn hơn
+    if (habit.streak > longestStreak) {
+      longestStreak = habit.streak; // Cập nhật
+    }
+  }
+  return longestStreak;
+  }
+
+  double get overallTodayProgress {
+  // Chỉ tính các thói quen đang hoạt động
+  if (_habits.isEmpty) return 0;
+
+  // Đếm số thói quen đã hoàn thành hôm nay
+  final completedToday = _habits.where((h) => h.isCompletedToday).length;
+
+  // Trả về tỷ lệ (ví dụ: 2/5 = 0.4)
+  return completedToday / _habits.length;
+}
+
   Habit? get justCompletedHabit => _justCompletedHabit;
 
   void clearJustCompletedHabit() {

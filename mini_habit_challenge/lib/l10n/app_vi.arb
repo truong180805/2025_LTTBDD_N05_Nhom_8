@@ -34,5 +34,12 @@
   "themeMode": "Chế độ",
   "light": "Sáng",
   "dark": "Tối",
-  "system": "Hệ thống"
+  "system": "Hệ thống",
+  "overall": "Tổng quan",
+  "daily": "Hàng ngày",
+  "challenges": "Thử thách",
+  "overallProgress": "Tiến độ Tổng",
+  "todaysProgress": "Hoàn thành Hôm nay",
+  "completedChallenges": "Thử thách đã hoàn thành",
+  "activeHabits": "Các thói quen đang thực hiện"
 }
