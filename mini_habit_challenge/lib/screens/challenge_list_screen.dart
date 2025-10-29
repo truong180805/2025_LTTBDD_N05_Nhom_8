@@ -51,7 +51,20 @@ import 'completion_screen.dart';
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 1. Tiêu đề "Hàng ngày"
+                Padding(
+                padding: const EdgeInsets.only(bottom: 24.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16.0),
+                  child: Image.asset('assets/images/imapp.png',
+                    height: 150, // Bạn có thể điều chỉnh chiều cao
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    
+                    // Thẻ [Image] này sẽ tìm một ảnh phù hợp
+                  
+                  ),
+                ),
+              ),
                 Text(
                   l10n.daily, // (Sẽ thêm vào l10n sau)
                   style: theme.textTheme.headlineSmall?.copyWith(
@@ -83,6 +96,8 @@ import 'completion_screen.dart';
   // Dùng để vẽ Card thói quen (đã cập nhật logic)
   Widget _buildHabitList(BuildContext context, List<Habit> habits, HabitProvider provider) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+
     if (habits.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -102,10 +117,18 @@ import 'completion_screen.dart';
         final bool isDoneToday = habit.isCompletedToday; // Logic mới
 
         return Card(
-          elevation: 2,
+          elevation: theme.brightness == Brightness.light ? 1 : 0,
+          color: theme.brightness == Brightness.dark
+          ? theme.colorScheme.surfaceContainerHighest
+          : theme.colorScheme.surface,
+          
           margin: EdgeInsets.symmetric(vertical: 8.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
+            side: BorderSide(
+              color: theme.colorScheme.outline.withValues(alpha: 0.5),
+              width: 1.0, // Độ dày của viền
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
@@ -151,7 +174,8 @@ import 'completion_screen.dart';
                           "🔥 Chuỗi: ${habit.streak} ngày",
                           style: TextStyle(
                             fontSize: 14.0,
-                            color: Colors.deepOrange,
+                            color: theme.colorScheme.secondary,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         // (MỚI) Chỉ hiển thị tiến độ cho loại 'Challenge'

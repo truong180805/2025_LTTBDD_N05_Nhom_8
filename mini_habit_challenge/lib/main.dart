@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.teal,
+              seedColor: Colors.amber,
               brightness: Brightness.light,
             ),
             fontFamily: GoogleFonts.poppins().fontFamily,
@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
           darkTheme: ThemeData(
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.teal,
+              seedColor: Colors.amber,
               brightness: Brightness.dark, // <-- Chế độ tối
             ),
             fontFamily: GoogleFonts.poppins().fontFamily,

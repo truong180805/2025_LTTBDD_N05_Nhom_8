@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @appName.
   ///
   /// In vi, this message translates to:
-  /// **'Thử Thách Mini'**
+  /// **'Theo Dõi Thói Quen'**
   String get appName;
 
   /// No description provided for @tabChallenges.

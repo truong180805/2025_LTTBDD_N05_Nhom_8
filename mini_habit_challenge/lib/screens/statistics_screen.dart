@@ -131,7 +131,7 @@ class StatisticsScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.local_fire_department, color: Colors.orange),
                       SizedBox(width: 8),
-                      Text("${habit.streak} ${l10n.day}s", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                      Text("${habit.streak} ${l10n.day}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                     ],
                   ),
               ],

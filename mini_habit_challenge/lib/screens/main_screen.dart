@@ -10,6 +10,7 @@ import 'package:mini_habit_challenge/l10n/app_localizations.dart';
 import '../providers/habit_provider.dart';
 import '../providers/profile_provider.dart';
 import '../providers/settings_provider.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -50,26 +51,36 @@ class _MainScreenState extends State<MainScreen> {
             );
           },
         ),
-        title: Text(l10n.tabChallenges, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+        title: Text(
+          l10n.tabChallenges,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
         centerTitle: true,
         elevation: 0,
       ),
       // AppBar cho Tab 1: Thống kê
       AppBar(
-        title: Text(l10n.tabStatistics, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+        title: Text(
+          l10n.tabStatistics,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
         centerTitle: true,
         elevation: 0,
         automaticallyImplyLeading: false, // Tắt nút back/menu
       ),
       // AppBar cho Tab 2: Hồ sơ
       AppBar(
-        title: Text("Hồ sơ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)), // (Sẽ thêm l10n sau)
+        title: Text(
+          "Hồ sơ",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ), // (Sẽ thêm l10n sau)
         centerTitle: true,
         elevation: 0,
         automaticallyImplyLeading: false, // Tắt nút back/menu
       ),
     ];
   }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -85,27 +96,33 @@ class _MainScreenState extends State<MainScreen> {
             UserAccountsDrawerHeader(
               accountName: Text(
                 l10n.appName,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.onPrimaryContainer,
+                ),
               ),
-              accountEmail: Text("${l10n.version} 1.0.0"), // Gợi ý của tôi
+              accountEmail: Text(
+                "${l10n.version} 1.0.0",
+                style: TextStyle(color: theme.colorScheme.onPrimaryContainer),
+              ),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: theme.colorScheme.onPrimary,
-                child: Text(
-                  "🎯",
-                  style: TextStyle(fontSize: 40),
-                ),
+                child: Text("🎯", style: TextStyle(fontSize: 40)),
               ),
               decoration: BoxDecoration(
                 color: theme.colorScheme.primaryContainer,
               ),
             ),
-            
+
             // Các mục menu
             ListTile(
               leading: Icon(Icons.home_outlined),
               title: Text(l10n.tabChallenges),
               onTap: () {
-                setState(() { _selectedIndex = 0; }); // Chuyển về Tab 0
+                setState(() {
+                  _selectedIndex = 0;
+                }); // Chuyển về Tab 0
                 Navigator.pop(context); // Đóng menu
               },
             ),
@@ -113,7 +130,9 @@ class _MainScreenState extends State<MainScreen> {
               leading: Icon(Icons.bar_chart_outlined),
               title: Text(l10n.tabStatistics),
               onTap: () {
-                setState(() { _selectedIndex = 1; }); // Chuyển về Tab 1
+                setState(() {
+                  _selectedIndex = 1;
+                }); // Chuyển về Tab 1
                 Navigator.pop(context); // Đóng menu
               },
             ),
@@ -121,7 +140,9 @@ class _MainScreenState extends State<MainScreen> {
               leading: Icon(Icons.person_outline),
               title: Text(l10n.profile), // (Sẽ thêm l10n sau)
               onTap: () {
-                setState(() { _selectedIndex = 2; }); // Chuyển về Tab 2
+                setState(() {
+                  _selectedIndex = 2;
+                }); // Chuyển về Tab 2
                 Navigator.pop(context); // Đóng menu
               },
             ),
@@ -134,7 +155,9 @@ class _MainScreenState extends State<MainScreen> {
                 // (Điều hướng đến màn hình Cài đặt)
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => const SettingsScreen(),
+                  ),
                 );
               },
             ),
@@ -150,22 +173,27 @@ class _MainScreenState extends State<MainScreen> {
                 );
               },
             ),
-            
+
             // Gợi ý của tôi: Nút Reset dữ liệu
             Spacer(), // Đẩy mục này xuống cuối
             ListTile(
               leading: Icon(Icons.delete_sweep_outlined, color: Colors.red),
-              title: Text("Reset ứng dụng", style: TextStyle(color: Colors.red)),
+              title: Text(
+                "Reset ứng dụng",
+                style: TextStyle(color: Colors.red),
+              ),
               onTap: () {
                 // Đóng menu trước
-                Navigator.pop(context); 
-                
+                Navigator.pop(context);
+
                 // Hiển thị Dialog xác nhận
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
                     title: Text("Bạn có chắc chắn?"),
-                    content: Text("Toàn bộ thói quen, hồ sơ và cài đặt sẽ bị xóa vĩnh viễn."),
+                    content: Text(
+                      "Toàn bộ thói quen, hồ sơ và cài đặt sẽ bị xóa vĩnh viễn.",
+                    ),
                     actions: [
                       TextButton(
                         child: Text("Hủy"),
@@ -178,17 +206,27 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                         onPressed: () {
                           // Lấy TẤT CẢ provider (listen: false)
-                          final habitProvider = Provider.of<HabitProvider>(context, listen: false);
-                          final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
-                          final settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
-                          
+                          final habitProvider = Provider.of<HabitProvider>(
+                            context,
+                            listen: false,
+                          );
+                          final profileProvider = Provider.of<ProfileProvider>(
+                            context,
+                            listen: false,
+                          );
+                          final settingsProvider =
+                              Provider.of<SettingsProvider>(
+                                context,
+                                listen: false,
+                              );
+
                           // Gọi các hàm reset
                           habitProvider.resetAllHabits();
                           profileProvider.resetProfile();
                           settingsProvider.resetSettings();
-                          
+
                           // Đóng Dialog
-                          Navigator.of(ctx).pop(); 
+                          Navigator.of(ctx).pop();
                         },
                       ),
                     ],
@@ -199,14 +237,11 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
       ),
-      
+
       appBar: appBars[_selectedIndex],
 
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _widgetOptions,
-      ),
-      
+      body: IndexedStack(index: _selectedIndex, children: _widgetOptions),
+
       // --- (4. CẬP NHẬT BOTTOM NAV BAR) ---
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
@@ -225,9 +260,10 @@ class _MainScreenState extends State<MainScreen> {
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        
+
         // (Gợi ý): Fix giao diện khi dùng 3 tab với M3
-        type: BottomNavigationBarType.fixed, 
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: theme.colorScheme.surfaceContainerHighest,
       ),
 
       floatingActionButton: _selectedIndex == 0
