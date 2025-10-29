@@ -23,4 +23,10 @@ class SettingsProvider with ChangeNotifier {
     notifyListeners();
     // TODO: Lưu cài đặt này vào bộ nhớ (sẽ làm sau)
   }
+
+  void resetSettings() {
+    _themeMode = ThemeMode.system; // Mặc định hệ thống
+    _locale = Locale('vi'); // Mặc định Tiếng Việt
+    notifyListeners();
+  }
 }

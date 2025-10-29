@@ -28,4 +28,12 @@ class ProfileProvider with ChangeNotifier {
     // Thông báo cho UI cập nhật
     notifyListeners();
   }
+
+  void resetProfile() {
+    _name = null;
+    _dob = null;
+    _weight = null;
+    _height = null;
+    notifyListeners();
+  }
 }

@@ -8,7 +8,7 @@ DateTime _dateOnly(DateTime dt) {
 }
 
 class HabitProvider with ChangeNotifier {
-   final List<Habit> _habits = [
+   List<Habit> _habits = [
     Habit(
       name: "Uống 2 lít nước",
       type: HabitType.daily, // Hàng ngày
@@ -136,6 +136,13 @@ class HabitProvider with ChangeNotifier {
   // --- (HÀM MỚI) Xóa/Hủy thói quen ---
   void deleteHabit(String habitId) {
     _habits.removeWhere((h) => h.id == habitId);
+    notifyListeners();
+  }
+
+  void resetAllHabits() {
+    _habits = []; // Xóa danh sách đang hoạt động
+    _completedHabits = []; // Xóa danh sách đã hoàn thành
+    _justCompletedHabit = null; // Xóa cờ
     notifyListeners();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'challenge_list_screen.dart';
 import 'statistics_screen.dart';
 import 'about_screen.dart';
@@ -6,7 +7,9 @@ import 'profile_screen.dart';
 import 'settings_screen.dart';
 import '../widgets/add_habit_dialog.dart';
 import 'package:mini_habit_challenge/l10n/app_localizations.dart';
-
+import '../providers/habit_provider.dart';
+import '../providers/profile_provider.dart';
+import '../providers/settings_provider.dart';
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -154,7 +157,43 @@ class _MainScreenState extends State<MainScreen> {
               leading: Icon(Icons.delete_sweep_outlined, color: Colors.red),
               title: Text("Reset ứng dụng", style: TextStyle(color: Colors.red)),
               onTap: () {
-                // TODO: Hiển thị dialog xác nhận
+                // Đóng menu trước
+                Navigator.pop(context); 
+                
+                // Hiển thị Dialog xác nhận
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: Text("Bạn có chắc chắn?"),
+                    content: Text("Toàn bộ thói quen, hồ sơ và cài đặt sẽ bị xóa vĩnh viễn."),
+                    actions: [
+                      TextButton(
+                        child: Text("Hủy"),
+                        onPressed: () => Navigator.of(ctx).pop(),
+                      ),
+                      FilledButton(
+                        child: Text("Reset"),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.red,
+                        ),
+                        onPressed: () {
+                          // Lấy TẤT CẢ provider (listen: false)
+                          final habitProvider = Provider.of<HabitProvider>(context, listen: false);
+                          final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+                          final settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
+                          
+                          // Gọi các hàm reset
+                          habitProvider.resetAllHabits();
+                          profileProvider.resetProfile();
+                          settingsProvider.resetSettings();
+                          
+                          // Đóng Dialog
+                          Navigator.of(ctx).pop(); 
+                        },
+                      ),
+                    ],
+                  ),
+                );
               },
             ),
           ],
