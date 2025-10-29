@@ -25,5 +25,14 @@
   "reminder": "Reminder",
   "noReminderSet": "No reminder set",
   "startDate": "Start Date",
-  "progress": "Progress"
+  "progress": "Progress",
+  "settings": "Settings",
+  "language": "Language",
+  "vietnamese": "Vietnamese",
+  "english": "English",
+  "appearance": "Appearance",
+  "themeMode": "Theme Mode",
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System"
 }

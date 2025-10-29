@@ -253,6 +253,60 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Tiến độ'**
   String get progress;
+
+  /// No description provided for @settings.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cài đặt'**
+  String get settings;
+
+  /// No description provided for @language.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngôn ngữ'**
+  String get language;
+
+  /// No description provided for @vietnamese.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếng Việt'**
+  String get vietnamese;
+
+  /// No description provided for @english.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tiếng Anh'**
+  String get english;
+
+  /// No description provided for @appearance.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giao diện'**
+  String get appearance;
+
+  /// No description provided for @themeMode.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chế độ'**
+  String get themeMode;
+
+  /// No description provided for @light.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sáng'**
+  String get light;
+
+  /// No description provided for @dark.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tối'**
+  String get dark;
+
+  /// No description provided for @system.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hệ thống'**
+  String get system;
 }
 
 class _AppLocalizationsDelegate

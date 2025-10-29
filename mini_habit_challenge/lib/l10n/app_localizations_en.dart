@@ -88,4 +88,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get progress => 'Progress';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get vietnamese => 'Vietnamese';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get themeMode => 'Theme Mode';
+
+  @override
+  String get light => 'Light';
+
+  @override
+  String get dark => 'Dark';
+
+  @override
+  String get system => 'System';
 }

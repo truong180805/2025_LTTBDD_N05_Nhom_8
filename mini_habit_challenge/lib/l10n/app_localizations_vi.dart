@@ -87,4 +87,31 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get progress => 'Tiến độ';
+
+  @override
+  String get settings => 'Cài đặt';
+
+  @override
+  String get language => 'Ngôn ngữ';
+
+  @override
+  String get vietnamese => 'Tiếng Việt';
+
+  @override
+  String get english => 'Tiếng Anh';
+
+  @override
+  String get appearance => 'Giao diện';
+
+  @override
+  String get themeMode => 'Chế độ';
+
+  @override
+  String get light => 'Sáng';
+
+  @override
+  String get dark => 'Tối';
+
+  @override
+  String get system => 'Hệ thống';
 }

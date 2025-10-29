@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'screens/welcome_screen.dart';
 import 'providers/habit_provider.dart';
 import 'providers/settings_provider.dart';
+import 'providers/profile_provider.dart';
 
 void main() {
   runApp(
@@ -14,6 +15,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => HabitProvider()),
         ChangeNotifierProvider(create: (context) => SettingsProvider()),
+        ChangeNotifierProvider(create: (context) => ProfileProvider()),
       ],
       child: const MyApp(),
     ),
