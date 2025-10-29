@@ -15,13 +15,7 @@ class StatisticsScreen extends StatelessWidget {
     final provider = context.watch<HabitProvider>(); 
     final completedHabits = provider.completedHabits;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.tabStatistics),
-        automaticallyImplyLeading: false, 
-        centerTitle: true,
-      ),
-      body: ListView(
+    return ListView(
         padding: EdgeInsets.all(16),
         children: [
           // --- (PHẦN MỚI) ---
@@ -66,7 +60,6 @@ class StatisticsScreen extends StatelessWidget {
           // (Bạn có thể thêm các thống kê khác ở đây sau)
           // Ví dụ: Thống kê chuỗi, v.v.
         ],
-      ),
-    );
+      );
   }
 }

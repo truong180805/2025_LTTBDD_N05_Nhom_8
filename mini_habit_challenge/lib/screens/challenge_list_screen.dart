@@ -12,37 +12,9 @@ import 'completion_screen.dart';
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    return Scaffold(
-      // (Menu trượt và AppBar căn giữa giữ nguyên như bước trước)
-      drawer: Drawer(
-        // ... (Code của Drawer giữ nguyên)
-      ),
-      appBar: AppBar(
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              icon: Icon(Icons.menu, size: 30),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
-        title: Text(
-          l10n.tabChallenges,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-      ),
-
-      // --- (BODY MỚI) ---
-      // Body bây giờ sẽ hiển thị 2 danh sách riêng biệt
-      body: Consumer<HabitProvider>(
+    return Consumer<HabitProvider>(
         builder: (context, provider, child) {
           final dailyHabits = provider.dailyHabits;
           final challengeHabits = provider.challengeHabits;
@@ -69,6 +41,7 @@ import 'completion_screen.dart';
               });
             }
           }
+          
 
           return SingleChildScrollView(
             padding: EdgeInsets.all(16.0),
@@ -100,21 +73,7 @@ import 'completion_screen.dart';
             ),
           );
         },
-      ),
-
-      // Nút FAB sẽ gọi Dialog (Widget) mới
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            // (3) Gọi Dialog mới
-            builder: (context) => _AddHabitDialog(),
-          );
-        },
-        child: Icon(Icons.add),
-        tooltip: l10n.addHabit,
-      ),
-    );
+      );
   }
 
   // --- (HÀM HELPER MỚI) Để vẽ danh sách ---

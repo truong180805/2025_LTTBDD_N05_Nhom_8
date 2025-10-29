@@ -6,18 +6,11 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Hồ sơ"), // (Sẽ thêm vào l10n sau)
-        centerTitle: true,
-        automaticallyImplyLeading: false, // Tắt nút back
-      ),
-      body: Center(
+    return Center(
         child: Text(
           "Đây là trang Hồ sơ, đang được xây dựng.",
           style: TextStyle(fontSize: 18, color: Colors.grey),
         ),
-      ),
-    );
+      );
   }
 }
