@@ -105,7 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         // 1. Tên
         _buildTextField(
           controller: _nameController,
-          label: "Tên", // (Sẽ thêm l10n sau)
+          label: l10n.name, // (Sẽ thêm l10n sau)
           icon: Icons.person_outline,
         ),
         SizedBox(height: 20),
@@ -120,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Expanded(
               child: _buildTextField(
                 controller: _weightController,
-                label: "Cân nặng (kg)", // (Sẽ thêm l10n sau)
+                label: l10n.weightInKg, // (Sẽ thêm l10n sau)
                 icon: Icons.monitor_weight_outlined,
                 keyboardType: TextInputType.number,
               ),
@@ -129,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Expanded(
               child: _buildTextField(
                 controller: _heightController,
-                label: "Chiều cao (cm)", // (Sẽ thêm l10n sau)
+                label: l10n.heightInCm, // (Sẽ thêm l10n sau)
                 icon: Icons.height_outlined,
                 keyboardType: TextInputType.number,
               ),
@@ -141,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         // 4. Nút Lưu
         ElevatedButton(
           onPressed: _saveProfile,
-          child: Text("Lưu thay đổi"), // (Sẽ thêm l10n sau)
+          child: Text(l10n.saveChanges), // (Sẽ thêm l10n sau)
           style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(vertical: 16),
             textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -175,7 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       onTap: _pickDate,
       child: InputDecorator(
         decoration: InputDecoration(
-          labelText: "Ngày sinh", // (Sẽ thêm l10n sau)
+          labelText: l10n.dateOfBirth, // (Sẽ thêm l10n sau)
           prefixIcon: Icon(Icons.calendar_today_outlined),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
@@ -183,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         child: Text(
           _selectedDob == null
-              ? "Chưa chọn ngày"
+              ? l10n.noDateSelected
               : dateFormat.format(_selectedDob!),
           style: TextStyle(fontSize: 16),
         ),

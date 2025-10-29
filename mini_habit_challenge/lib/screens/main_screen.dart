@@ -87,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
                 l10n.appName,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              accountEmail: Text("Phiên bản 1.0.0"), // Gợi ý của tôi
+              accountEmail: Text("${l10n.version} 1.0.0"), // Gợi ý của tôi
               currentAccountPicture: CircleAvatar(
                 backgroundColor: theme.colorScheme.onPrimary,
                 child: Text(
@@ -119,7 +119,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             ListTile(
               leading: Icon(Icons.person_outline),
-              title: Text("Hồ sơ"), // (Sẽ thêm l10n sau)
+              title: Text(l10n.profile), // (Sẽ thêm l10n sau)
               onTap: () {
                 setState(() { _selectedIndex = 2; }); // Chuyển về Tab 2
                 Navigator.pop(context); // Đóng menu
@@ -128,7 +128,7 @@ class _MainScreenState extends State<MainScreen> {
             Divider(),
             ListTile(
               leading: Icon(Icons.settings_outlined),
-              title: Text("Cài đặt"), // (Sẽ thêm l10n sau)
+              title: Text(l10n.settings), // (Sẽ thêm l10n sau)
               onTap: () {
                 Navigator.pop(context); // Đóng menu
                 // (Điều hướng đến màn hình Cài đặt)
@@ -220,7 +220,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline), // <-- Icon mới
-            label: "Hồ sơ", // <-- Tên mới (sẽ thêm l10n sau)
+            label: l10n.profile, // <-- Tên mới (sẽ thêm l10n sau)
           ),
         ],
         currentIndex: _selectedIndex,

@@ -76,7 +76,7 @@ class AddHabitDialogState extends State<AddHabitDialog> {
             SizedBox(height: 20),
 
             // 2. Chọn Loại (Hàng ngày / Thử thách)
-            Text("Loại thói quen:", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(l10n.habitType, style: TextStyle(fontWeight: FontWeight.bold)),
             ToggleButtons(
               children: [
                 Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: Text("Hàng ngày")),
@@ -110,12 +110,12 @@ class AddHabitDialogState extends State<AddHabitDialog> {
             SizedBox(height: 16),
 
             // 4. (MỚI) Chọn giờ nhắc nhở
-            Text("Giờ nhắc nhở (Tùy chọn):", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(l10n.reminderTimeOptional, style: TextStyle(fontWeight: FontWeight.bold)),
             TextButton(
               onPressed: _pickTime,
               child: Text(
                 _selectedTime == null
-                    ? "Chọn giờ"
+                    ? l10n.pickTime
                     : _selectedTime!.format(context), // "10:30 AM"
               ),
             ),

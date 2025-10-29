@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'habit_detail_screen.dart';
@@ -13,6 +15,7 @@ import 'completion_screen.dart';
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Consumer<HabitProvider>(
         builder: (context, provider, child) {
@@ -50,7 +53,7 @@ import 'completion_screen.dart';
               children: [
                 // 1. Tiêu đề "Hàng ngày"
                 Text(
-                  "Hàng ngày", // (Sẽ thêm vào l10n sau)
+                  l10n.daily, // (Sẽ thêm vào l10n sau)
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -62,7 +65,7 @@ import 'completion_screen.dart';
 
                 // 2. Tiêu đề "Thử thách"
                 Text(
-                  "Thử thách", // (Sẽ thêm vào l10n sau)
+                  l10n.challenges, // (Sẽ thêm vào l10n sau)
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -79,11 +82,12 @@ import 'completion_screen.dart';
   // --- (HÀM HELPER MỚI) Để vẽ danh sách ---
   // Dùng để vẽ Card thói quen (đã cập nhật logic)
   Widget _buildHabitList(BuildContext context, List<Habit> habits, HabitProvider provider) {
+    final l10n = AppLocalizations.of(context)!;
     if (habits.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: Text(
-          "Chưa có thói quen nào trong mục này.",
+          l10n.noHabitsInThisSection,
           style: TextStyle(color: Colors.grey.shade600),
         ),
       );

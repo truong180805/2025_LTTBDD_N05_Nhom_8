@@ -349,6 +349,78 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'Các thói quen đang thực hiện'**
   String get activeHabits;
+
+  /// No description provided for @profile.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hồ sơ'**
+  String get profile;
+
+  /// No description provided for @version.
+  ///
+  /// In vi, this message translates to:
+  /// **'Phiên bản'**
+  String get version;
+
+  /// No description provided for @habitType.
+  ///
+  /// In vi, this message translates to:
+  /// **'Loại thói quen:'**
+  String get habitType;
+
+  /// No description provided for @reminderTimeOptional.
+  ///
+  /// In vi, this message translates to:
+  /// **'Giờ nhắc nhở (Tùy chọn):'**
+  String get reminderTimeOptional;
+
+  /// No description provided for @pickTime.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chọn giờ'**
+  String get pickTime;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lưu thay đổi'**
+  String get saveChanges;
+
+  /// No description provided for @name.
+  ///
+  /// In vi, this message translates to:
+  /// **'Tên'**
+  String get name;
+
+  /// No description provided for @dateOfBirth.
+  ///
+  /// In vi, this message translates to:
+  /// **'Ngày sinh'**
+  String get dateOfBirth;
+
+  /// No description provided for @noDateSelected.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa chọn ngày'**
+  String get noDateSelected;
+
+  /// No description provided for @weightInKg.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cân nặng (kg)'**
+  String get weightInKg;
+
+  /// No description provided for @heightInCm.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chiều cao (cm)'**
+  String get heightInCm;
+
+  /// No description provided for @noHabitsInThisSection.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chưa có thói quen nào trong mục này.'**
+  String get noHabitsInThisSection;
 }
 
 class _AppLocalizationsDelegate

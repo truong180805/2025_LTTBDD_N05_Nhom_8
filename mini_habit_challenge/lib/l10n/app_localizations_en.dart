@@ -136,4 +136,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get activeHabits => 'Active Habits';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get version => 'Version';
+
+  @override
+  String get habitType => 'Habit Type:';
+
+  @override
+  String get reminderTimeOptional => 'Reminder (Optional):';
+
+  @override
+  String get pickTime => 'Pick time';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get dateOfBirth => 'Date of Birth';
+
+  @override
+  String get noDateSelected => 'No date selected';
+
+  @override
+  String get weightInKg => 'Weight (kg)';
+
+  @override
+  String get heightInCm => 'Height (cm)';
+
+  @override
+  String get noHabitsInThisSection => 'No habits in this section yet.';
 }

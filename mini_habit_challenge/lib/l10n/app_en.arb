@@ -41,5 +41,17 @@
   "overallProgress": "Overall Progress",
   "todaysProgress": "Today's Progress",
   "completedChallenges": "Completed Challenges",
-  "activeHabits": "Active Habits"
+  "activeHabits": "Active Habits",
+  "profile": "Profile",
+  "version": "Version",
+  "habitType": "Habit Type:",
+  "reminderTimeOptional": "Reminder (Optional):",
+  "pickTime": "Pick time",
+  "saveChanges": "Save Changes",
+  "name": "Name",
+  "dateOfBirth": "Date of Birth",
+  "noDateSelected": "No date selected",
+  "weightInKg": "Weight (kg)",
+  "heightInCm": "Height (cm)",
+  "noHabitsInThisSection": "No habits in this section yet."
 }

@@ -41,5 +41,17 @@
   "overallProgress": "Tiến độ Tổng",
   "todaysProgress": "Hoàn thành Hôm nay",
   "completedChallenges": "Thử thách đã hoàn thành",
-  "activeHabits": "Các thói quen đang thực hiện"
+  "activeHabits": "Các thói quen đang thực hiện",
+  "profile": "Hồ sơ",
+  "version": "Phiên bản",
+  "habitType": "Loại thói quen:",
+  "reminderTimeOptional": "Giờ nhắc nhở (Tùy chọn):",
+  "pickTime": "Chọn giờ",
+  "saveChanges": "Lưu thay đổi",
+  "name": "Tên",
+  "dateOfBirth": "Ngày sinh",
+  "noDateSelected": "Chưa chọn ngày",
+  "weightInKg": "Cân nặng (kg)",
+  "heightInCm": "Chiều cao (cm)",
+  "noHabitsInThisSection": "Chưa có thói quen nào trong mục này."
 }

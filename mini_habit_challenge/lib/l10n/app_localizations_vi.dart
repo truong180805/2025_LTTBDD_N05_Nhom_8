@@ -135,4 +135,40 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get activeHabits => 'Các thói quen đang thực hiện';
+
+  @override
+  String get profile => 'Hồ sơ';
+
+  @override
+  String get version => 'Phiên bản';
+
+  @override
+  String get habitType => 'Loại thói quen:';
+
+  @override
+  String get reminderTimeOptional => 'Giờ nhắc nhở (Tùy chọn):';
+
+  @override
+  String get pickTime => 'Chọn giờ';
+
+  @override
+  String get saveChanges => 'Lưu thay đổi';
+
+  @override
+  String get name => 'Tên';
+
+  @override
+  String get dateOfBirth => 'Ngày sinh';
+
+  @override
+  String get noDateSelected => 'Chưa chọn ngày';
+
+  @override
+  String get weightInKg => 'Cân nặng (kg)';
+
+  @override
+  String get heightInCm => 'Chiều cao (cm)';
+
+  @override
+  String get noHabitsInThisSection => 'Chưa có thói quen nào trong mục này.';
 }
