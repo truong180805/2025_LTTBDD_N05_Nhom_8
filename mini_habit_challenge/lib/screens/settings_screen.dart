@@ -12,7 +12,7 @@ class SettingsScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     // Dùng 'watch' để lắng nghe thay đổi và tự động cập nhật UI
     final settings = context.watch<SettingsProvider>();
-    final theme = Theme.of(context);
+    
 
     return Scaffold(
       appBar: AppBar(

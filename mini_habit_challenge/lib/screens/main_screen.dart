@@ -71,7 +71,7 @@ class _MainScreenState extends State<MainScreen> {
       // AppBar cho Tab 2: Hồ sơ
       AppBar(
         title: Text(
-          "Hồ sơ",
+          l10n.profile,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ), // (Sẽ thêm l10n sau)
         centerTitle: true,
