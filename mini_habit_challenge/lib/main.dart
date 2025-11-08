@@ -34,15 +34,9 @@ class MyApp extends StatelessWidget {
             return AppLocalizations.of(context)!.appName;
           },
           
-          // --- (PHẦN CẬP NHẬT QUAN TRỌNG) ---
-          
-          // 4. Lắng nghe Ngôn ngữ
           locale: settingsProvider.locale, 
           
-          // 5. Lắng nghe Chế độ Sáng/Tối
           themeMode: settingsProvider.themeMode, 
-          
-          // --- (HẾT PHẦN CẬP NHẬT) ---
 
           localizationsDelegates: [
             AppLocalizations.delegate,
@@ -51,13 +45,12 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: [
-            Locale('vi', ''), // Tiếng Việt
-            Locale('en', ''), // Tiếng Anh
+            Locale('vi', ''), 
+            Locale('en', ''), 
           ],
           
           debugShowCheckedModeBanner: false,
-
-          // --- (Theme Sáng - Light) ---
+          //cau hinh che do sang
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(
@@ -67,12 +60,12 @@ class MyApp extends StatelessWidget {
             fontFamily: GoogleFonts.poppins().fontFamily,
           ),
 
-          // --- (Theme Tối - Dark) ---
+          //cau hinh che do toi
           darkTheme: ThemeData(
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.amber,
-              brightness: Brightness.dark, // <-- Chế độ tối
+              brightness: Brightness.dark, 
             ),
             fontFamily: GoogleFonts.poppins().fontFamily,
           ),

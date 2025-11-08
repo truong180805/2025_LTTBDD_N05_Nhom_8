@@ -1,4 +1,3 @@
-// lib/screens/habit_detail_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -16,38 +15,39 @@ DateTime _dateOnly(DateTime dt) {
 class HabitDetailScreen extends StatefulWidget {
   final String habitId;
 
-  const HabitDetailScreen({Key? key, required this.habitId}) : super(key: key);
+  const HabitDetailScreen({super.key,required this.habitId});
 
   @override
   _HabitDetailScreenState createState() => _HabitDetailScreenState();
 }
 
 class _HabitDetailScreenState extends State<HabitDetailScreen> {
-  // Biến state để quản lý ngày đang được chọn trên lịch
   DateTime _focusedDay = _dateOnly(DateTime.now());
   DateTime? _selectedDay = _dateOnly(DateTime.now());
 
-  // Hàm xử lý khi nhấn nút Xóa
+  //ham xoa thoi quen
   void _confirmDelete(BuildContext context, HabitProvider provider, Habit habit, AppLocalizations l10n) {
-    showDialog(
+    showDialog(//hien thi cua so 
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(l10n.deleteHabit),
         content: Text(l10n.deleteHabitConfirm),
         actions: [
+
           TextButton(
             child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
             onPressed: () => Navigator.of(ctx).pop(),
           ),
-          FilledButton( // Dùng FilledButton (M3) cho nổi bật
+
+          FilledButton( 
             child: Text(l10n.delete),
             style: FilledButton.styleFrom(
               backgroundColor: Colors.red.shade700,
             ),
             onPressed: () {
               provider.deleteHabit(habit.id);
-              Navigator.of(ctx).pop(); // Đóng Dialog
-              Navigator.of(context).pop(); // Quay về màn hình danh sách
+              Navigator.of(ctx).pop(); 
+              Navigator.of(context).pop(); 
             },
           ),
         ],
@@ -60,18 +60,14 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
-    // Dùng 'Consumer' để lấy dữ liệu VÀ tự động build lại khi tick
     return Consumer<HabitProvider>(
       builder: (context, provider, child) {
-        // Lấy thông tin thói quen mới nhất
         final habit = provider.getHabitById(widget.habitId);
         final today = _dateOnly(DateTime.now());
 
+        //kiem tra xem thoi quen da hoan thanh chua
         if (provider.justCompletedHabit != null && provider.justCompletedHabit!.id == habit.id) {
-          // Dùng addPostFrameCallback để điều hướng *sau khi* build xong
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            // Điều hướng đến màn hình Chúc mừng
-            // Dùng pushReplacement để màn hình chi tiết này biến mất
             Navigator.pushReplacement( 
               context,
               MaterialPageRoute(
@@ -80,7 +76,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                 ),
               ),
             );
-            provider.clearJustCompletedHabit(); // Xóa cờ
+            provider.clearJustCompletedHabit();
           });
         }
 
@@ -88,7 +84,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
           appBar: AppBar(
             title: Text(habit.name),
             centerTitle: true,
-            // (MỚI) Nút Xóa (Hủy)
+
             actions: [
               IconButton(
                 icon: Icon(Icons.delete_outline),
@@ -97,12 +93,13 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
               ),
             ],
           ),
+
           body: SingleChildScrollView(
             padding: EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // --- (MỚI) Thẻ Thông tin Thống kê ---
+                
                 Card(
                   elevation: 2,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -131,7 +128,8 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                           label: l10n.reminder,
                           value: habit.reminderTime?.format(context) ?? l10n.noReminderSet,
                         ),
-                        // Chỉ hiển thị tiến độ cho loại 'Challenge'
+
+                        //neu la thu thach thi hien thi tien do
                         if (habit.type == HabitType.challenge)
                           Padding(
                             padding: const EdgeInsets.only(top: 12.0),
@@ -144,6 +142,7 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(height: 8),
+
                                 LinearPercentIndicator(
                                   percent: habit.progress,
                                   lineHeight: 12.0,
@@ -160,37 +159,30 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                 ),
                 SizedBox(height: 24),
 
-                // --- (MỚI) LỊCH (TableCalendar) ---
                 Card(
                   elevation: 2,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
+                    //hien thi lich co the tick
                     child: TableCalendar(
-                      locale: l10n.localeName, // Hỗ trợ ngôn ngữ cho Lịch
-                      firstDay: habit.startDate, // Chỉ cho phép xem từ ngày bắt đầu
-                      lastDay: today.add(Duration(days: 365)), // Giới hạn 1 năm
+                      locale: l10n.localeName, 
+                      firstDay: habit.startDate, 
+                      lastDay: today.add(Duration(days: 365)), 
                       focusedDay: _focusedDay,
                       selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
                       
-                      // (QUAN TRỌNG) Đánh dấu các ngày đã hoàn thành
+                      //danh dau ngay hoan thanh
                       eventLoader: (day) {
                         if (habit.completionLog[_dateOnly(day)] == true) {
-                          return ["completed"]; // Trả về 1 sự kiện
+                          return ["completed"]; 
                         }
-                        return []; // Không có sự kiện
+                        return []; 
                       },
 
-                      // (QUAN TRỌNG) Xử lý khi nhấn vào 1 ngày
+                      //khi an vao 1 ngay goi ham tick/bo tick
                       onDaySelected: (selectedDay, focusedDay) {
-                        // Không cho phép tick vào ngày tương lai
-                        //if (selectedDay.isAfter(today)) {
-                        //  return;
-                        //}
-                        
-                        // Gọi hàm toggle mới trong provider
                         provider.toggleDateCompletion(habit.id, selectedDay);
-                        
                         setState(() {
                           _selectedDay = selectedDay;
                           _focusedDay = focusedDay;
@@ -200,28 +192,27 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
                         _focusedDay = focusedDay;
                       },
                       
-                      // --- (Style Lịch) ---
-                      calendarStyle: CalendarStyle(
-                        // Style cho các ngày có sự kiện (đã hoàn thành)
+                      calendarStyle: CalendarStyle(//cham tron cho ngay hoan thanh
                         markerDecoration: BoxDecoration(
                           color: theme.colorScheme.primary,
                           shape: BoxShape.circle,
                         ),
-                        // Style cho ngày 'hôm nay'
-                        todayDecoration: BoxDecoration(
-                          color: theme.colorScheme.primaryContainer.withOpacity(0.5),
+                        
+                        todayDecoration: BoxDecoration(//nen cho ngay hom nay
+                          color: theme.colorScheme.primaryContainer.withValues(alpha: 0.5),
                           shape: BoxShape.circle,
                         ),
                         todayTextStyle: TextStyle(color: theme.colorScheme.onPrimaryContainer),
-                        // Style cho ngày 'đang chọn'
-                        selectedDecoration: BoxDecoration(
-                          color: theme.colorScheme.primary.withOpacity(0.7),
+                        
+                        selectedDecoration: BoxDecoration(//ngay minh chon
+                          color: theme.colorScheme.primary.withValues(alpha: 0.5),
                           shape: BoxShape.circle,
                         ),
                       ),
+
                       headerStyle: HeaderStyle(
                         titleCentered: true,
-                        formatButtonVisible: false, // Ẩn nút "2 Weeks"
+                        formatButtonVisible: false, 
                       ),
                     ),
                   ),
@@ -229,9 +220,10 @@ class _HabitDetailScreenState extends State<HabitDetailScreen> {
               ],
             ),
           ),
+
+          //nut tick co goi ham tick
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
-              // Gọi hàm tick "hôm nay" của provider
               provider.toggleTodayCompletion(habit.id);
             },
             label: Text(

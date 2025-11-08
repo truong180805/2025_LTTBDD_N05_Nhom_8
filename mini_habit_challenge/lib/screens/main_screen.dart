@@ -12,7 +12,7 @@ import '../providers/profile_provider.dart';
 import '../providers/settings_provider.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+    const MainScreen({super.key});
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -21,11 +21,10 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  // 2. Cập nhật danh sách Widget (thay About bằng Profile)
   static const List<Widget> _widgetOptions = <Widget>[
     ChallengeListScreen(),
     StatisticsScreen(),
-    ProfileScreen(), // <--- Thay đổi ở đây
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -37,28 +36,26 @@ class _MainScreenState extends State<MainScreen> {
   List<AppBar> _buildAppBars(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return [
-      // AppBar cho Tab 0: Thử thách (CÓ NÚT MENU)
       AppBar(
         leading: Builder(
           builder: (context) {
-            // Builder này lấy context BÊN TRONG Scaffold của MainScreen
             return IconButton(
               icon: Icon(Icons.menu, size: 30),
               onPressed: () {
-                // Lệnh này giờ sẽ tìm đúng Scaffold và MỞ ĐƯỢC
                 Scaffold.of(context).openDrawer();
               },
             );
           },
         ),
+
         title: Text(
           l10n.tabChallenges,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ),
+
         centerTitle: true,
         elevation: 0,
       ),
-      // AppBar cho Tab 1: Thống kê
       AppBar(
         title: Text(
           l10n.tabStatistics,
@@ -66,17 +63,17 @@ class _MainScreenState extends State<MainScreen> {
         ),
         centerTitle: true,
         elevation: 0,
-        automaticallyImplyLeading: false, // Tắt nút back/menu
+        automaticallyImplyLeading: false,
       ),
-      // AppBar cho Tab 2: Hồ sơ
+
       AppBar(
         title: Text(
           l10n.profile,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-        ), // (Sẽ thêm l10n sau)
+        ), 
         centerTitle: true,
         elevation: 0,
-        automaticallyImplyLeading: false, // Tắt nút back/menu
+        automaticallyImplyLeading: false, 
       ),
     ];
   }
@@ -88,11 +85,9 @@ class _MainScreenState extends State<MainScreen> {
     final appBars = _buildAppBars(context);
 
     return Scaffold(
-      // --- (3. THÊM DRAWER VÀO ĐÂY) ---
       drawer: Drawer(
         child: Column(
           children: [
-            // Header của Drawer
             UserAccountsDrawerHeader(
               accountName: Text(
                 l10n.appName,
@@ -115,44 +110,45 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
 
-            // Các mục menu
             ListTile(
               leading: Icon(Icons.home_outlined),
               title: Text(l10n.tabChallenges),
               onTap: () {
                 setState(() {
                   _selectedIndex = 0;
-                }); // Chuyển về Tab 0
-                Navigator.pop(context); // Đóng menu
+                }); 
+                Navigator.pop(context); 
               },
             ),
+
             ListTile(
               leading: Icon(Icons.bar_chart_outlined),
               title: Text(l10n.tabStatistics),
               onTap: () {
                 setState(() {
                   _selectedIndex = 1;
-                }); // Chuyển về Tab 1
-                Navigator.pop(context); // Đóng menu
+                }); 
+                Navigator.pop(context); 
               },
             ),
+
             ListTile(
               leading: Icon(Icons.person_outline),
-              title: Text(l10n.profile), // (Sẽ thêm l10n sau)
+              title: Text(l10n.profile), 
               onTap: () {
                 setState(() {
                   _selectedIndex = 2;
-                }); // Chuyển về Tab 2
-                Navigator.pop(context); // Đóng menu
+                }); 
+                Navigator.pop(context); 
               },
             ),
             Divider(),
+
             ListTile(
               leading: Icon(Icons.settings_outlined),
-              title: Text(l10n.settings), // (Sẽ thêm l10n sau)
+              title: Text(l10n.settings), 
               onTap: () {
-                Navigator.pop(context); // Đóng menu
-                // (Điều hướng đến màn hình Cài đặt)
+                Navigator.pop(context); 
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -161,12 +157,12 @@ class _MainScreenState extends State<MainScreen> {
                 );
               },
             ),
+
             ListTile(
               leading: Icon(Icons.info_outline),
-              title: Text(l10n.tabAbout), // "Thông tin"
+              title: Text(l10n.tabAbout), 
               onTap: () {
-                Navigator.pop(context); // Đóng menu
-                // (Điều hướng đến màn hình Thông tin)
+                Navigator.pop(context); 
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const AboutScreen()),
@@ -174,8 +170,8 @@ class _MainScreenState extends State<MainScreen> {
               },
             ),
 
-            // Gợi ý của tôi: Nút Reset dữ liệu
-            Spacer(), // Đẩy mục này xuống cuối
+            
+            Spacer(), 
             ListTile(
               leading: Icon(Icons.delete_sweep_outlined, color: Colors.red),
               title: Text(
@@ -183,10 +179,8 @@ class _MainScreenState extends State<MainScreen> {
                 style: TextStyle(color: Colors.red),
               ),
               onTap: () {
-                // Đóng menu trước
                 Navigator.pop(context);
 
-                // Hiển thị Dialog xác nhận
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
@@ -204,8 +198,8 @@ class _MainScreenState extends State<MainScreen> {
                         style: FilledButton.styleFrom(
                           backgroundColor: Colors.red,
                         ),
+
                         onPressed: () {
-                          // Lấy TẤT CẢ provider (listen: false)
                           final habitProvider = Provider.of<HabitProvider>(
                             context,
                             listen: false,
@@ -220,12 +214,10 @@ class _MainScreenState extends State<MainScreen> {
                                 listen: false,
                               );
 
-                          // Gọi các hàm reset
                           habitProvider.resetAllHabits();
                           profileProvider.resetProfile();
                           settingsProvider.resetSettings();
 
-                          // Đóng Dialog
                           Navigator.of(ctx).pop();
                         },
                       ),
@@ -242,34 +234,36 @@ class _MainScreenState extends State<MainScreen> {
 
       body: IndexedStack(index: _selectedIndex, children: _widgetOptions),
 
-      // --- (4. CẬP NHẬT BOTTOM NAV BAR) ---
+      //thanh dieu huong duoi
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
+
           BottomNavigationBarItem(
             icon: Icon(Icons.check_circle_outline),
             label: l10n.tabChallenges,
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart),
             label: l10n.tabStatistics,
           ),
+
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline), // <-- Icon mới
-            label: l10n.profile, // <-- Tên mới (sẽ thêm l10n sau)
+            icon: Icon(Icons.person_outline), 
+            label: l10n.profile, 
           ),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
 
-        // (Gợi ý): Fix giao diện khi dùng 3 tab với M3
         type: BottomNavigationBarType.fixed,
         backgroundColor: theme.colorScheme.surfaceContainerHighest,
       ),
 
+      //nut them chi hien tab thu thach
       floatingActionButton: _selectedIndex == 0
           ? FloatingActionButton(
               onPressed: () {
-                // Gọi Dialog đã được tách ra
                 showDialog(
                   context: context,
                   builder: (context) => const AddHabitDialog(),

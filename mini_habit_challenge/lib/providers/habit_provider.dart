@@ -1,8 +1,7 @@
-// lib/providers/habit_provider.dart
 import 'package:flutter/material.dart';
 import '../models/habit.dart';
 
-// Hàm tiện ích (private) để chuẩn hóa DateTime (chỉ lấy Ngày, bỏ Giờ/Phút)
+//ham chi lay ngay thang nam
 DateTime _dateOnly(DateTime dt) {
   return DateTime(dt.year, dt.month, dt.day);
 }
@@ -11,14 +10,14 @@ class HabitProvider with ChangeNotifier {
    List<Habit> _habits = [
     Habit(
       name: "Uống 2 lít nước",
-      type: HabitType.daily, // Hàng ngày
-      startDate: DateTime.now().subtract(Duration(days: 2)), // Bắt đầu 2 hôm trước
+      type: HabitType.daily,
+      startDate: DateTime.now().subtract(Duration(days: 2)),
       reminderTime: TimeOfDay(hour: 8, minute: 0),
     ),
     Habit(
       name: "Thử thách 7 ngày đọc sách",
-      type: HabitType.challenge, // Thử thách
-      startDate: DateTime.now().subtract(Duration(days: 1)), // Bắt đầu hôm qua
+      type: HabitType.challenge,
+      startDate: DateTime.now().subtract(Duration(days: 1)),
       totalDays: 7,
       reminderTime: TimeOfDay(hour: 21, minute: 0),
     ),
@@ -27,62 +26,65 @@ class HabitProvider with ChangeNotifier {
   List<Habit> _completedHabits = [];
   Habit? _justCompletedHabit;
 
+  //tra ve thoi quen da hoan thanh
   List<Habit> get completedHabits => _completedHabits;
 
+  //tinh chuoi dai nhat
   int get longestOverallStreak {
-  if (_habits.isEmpty) return 0; // Nếu không có thói quen, chuỗi là 0
+  if (_habits.isEmpty) return 0;
 
   int longestStreak = 0;
-  // Lặp qua từng thói quen
+  
   for (final habit in _habits) {
-    // Nếu chuỗi của thói quen này lớn hơn
     if (habit.streak > longestStreak) {
-      longestStreak = habit.streak; // Cập nhật
+      longestStreak = habit.streak; 
     }
   }
   return longestStreak;
   }
 
+  //tinh tien do cac thoi quen hom nay
   double get overallTodayProgress {
-  // Chỉ tính các thói quen đang hoạt động
   if (_habits.isEmpty) return 0;
-
-  // Đếm số thói quen đã hoàn thành hôm nay
   final completedToday = _habits.where((h) => h.isCompletedToday).length;
-
-  // Trả về tỷ lệ (ví dụ: 2/5 = 0.4)
   return completedToday / _habits.length;
 }
-
+  //tra ve thoi quen vua hoan thanh
   Habit? get justCompletedHabit => _justCompletedHabit;
 
+  //clear thoi quen vua hoan thanh
   void clearJustCompletedHabit() {
     _justCompletedHabit = null;
   }
 
+  //xu ly trang thai khi 1 thu thach hoan thanh
   void _handleHabitCompletionCheck(Habit habit) {
     if (habit.isChallengeFullyCompleted) { 
-      _habits.remove(habit); // 2. Xóa khỏi danh sách chính
-      _completedHabits.add(habit); // 3. Thêm vào danh sách hoàn thành
-      _justCompletedHabit = habit; // 4. Đặt cờ để UI biết và kích hoạt confetti
+      _habits.remove(habit); 
+      _completedHabits.add(habit);
+      _justCompletedHabit = habit; 
     }
   }
 
+  //tra ve toan bo danh sach thoi quen
   List<Habit> get habits => _habits;
   
+  //loc ra chi thoi quen hang ngay
   List<Habit> get dailyHabits {
     return _habits.where((h) => h.type == HabitType.daily).toList();
   }
 
+  //loc ra chi thu thach
   List<Habit> get challengeHabits {
      return _habits.where((h) => h.type == HabitType.challenge).toList();
   }
-  
+
+  //ham lay thoi quen theo id
   Habit getHabitById(String habitId) {
     return _habits.firstWhere((h) => h.id == habitId);
   }
 
-  // --- (HÀM CẬP NHẬT) Thêm Thói quen ---
+  //ham them mot thoi quen
   void addHabit({
     required String name,
     required HabitType type,
@@ -92,7 +94,7 @@ class HabitProvider with ChangeNotifier {
     final newHabit = Habit(
       name: name,
       type: type,
-      startDate: _dateOnly(DateTime.now()), // Ngày bắt đầu là hôm nay
+      startDate: _dateOnly(DateTime.now()), 
       totalDays: type == HabitType.challenge ? totalDays : null,
       reminderTime: reminderTime,
     );
@@ -100,14 +102,11 @@ class HabitProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // --- (HÀM CẬP NHẬT) Tick/Bỏ tick một ngày ---
-  // Chúng ta sẽ tick cho ngày 'hôm nay'
+  //ham tick/bo tick hom nay
   void toggleTodayCompletion(String habitId) {
     try {
       final habit = getHabitById(habitId);
       final today = _dateOnly(DateTime.now());
-
-      // Lấy trạng thái hiện tại (hoặc false nếu chưa có) và đảo ngược nó
       final bool isCompleted = habit.completionLog[today] ?? false;
       habit.completionLog[today] = !isCompleted;
       _handleHabitCompletionCheck(habit);
@@ -117,13 +116,11 @@ class HabitProvider with ChangeNotifier {
     }
   }
 
+  //tick mot ngay bat ky
   void toggleDateCompletion(String habitId, DateTime date) {
     try {
       final habit = getHabitById(habitId);
-      // Chuẩn hóa ngày (loại bỏ giờ/phút)
       final dateOnly = _dateOnly(date); 
-
-      // Đảo ngược trạng thái
       final bool isCompleted = habit.completionLog[dateOnly] ?? false;
       habit.completionLog[dateOnly] = !isCompleted;
       _handleHabitCompletionCheck(habit);
@@ -133,16 +130,17 @@ class HabitProvider with ChangeNotifier {
     }
   }
 
-  // --- (HÀM MỚI) Xóa/Hủy thói quen ---
+  //xoa thoi quen
   void deleteHabit(String habitId) {
     _habits.removeWhere((h) => h.id == habitId);
     notifyListeners();
   }
 
+  //reset du lieu
   void resetAllHabits() {
-    _habits = []; // Xóa danh sách đang hoạt động
-    _completedHabits = []; // Xóa danh sách đã hoàn thành
-    _justCompletedHabit = null; // Xóa cờ
+    _habits = []; 
+    _completedHabits = []; 
+    _justCompletedHabit = null; 
     notifyListeners();
   }
 }

@@ -1,19 +1,18 @@
-// lib/providers/profile_provider.dart
 import 'package:flutter/material.dart';
 
 class ProfileProvider with ChangeNotifier {
   String? _name;
-  DateTime? _dob; // Date of Birth (Ngày sinh)
-  double? _weight; // kg
-  double? _height; // cm
+  DateTime? _dob; 
+  double? _weight; 
+  double? _height;
 
-  // Getters (Hàm lấy dữ liệu)
+  //lay du lieu
   String? get name => _name;
   DateTime? get dob => _dob;
   double? get weight => _weight;
   double? get height => _height;
 
-  // Hàm để cập nhật và lưu hồ sơ
+  //ham cap nhat ho so
   void updateProfile({
     String? name,
     DateTime? dob,
@@ -25,10 +24,10 @@ class ProfileProvider with ChangeNotifier {
     _weight = weight;
     _height = height;
 
-    // Thông báo cho UI cập nhật
     notifyListeners();
   }
 
+  //ham reset ho so
   void resetProfile() {
     _name = null;
     _dob = null;

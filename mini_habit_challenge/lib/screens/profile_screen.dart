@@ -1,4 +1,3 @@
-// lib/screens/profile_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mini_habit_challenge/l10n/app_localizations.dart';
@@ -6,32 +5,28 @@ import 'package:intl/intl.dart';
 import '../providers/profile_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  // Bộ điều khiển cho các ô nhập liệu
+  
   final _nameController = TextEditingController();
   final _weightController = TextEditingController();
   final _heightController = TextEditingController();
 
-  // Biến state để lưu ngày sinh
   DateTime? _selectedDob;
 
   bool _isInitialized = false;
 
-  // 1. Tải dữ liệu từ Provider VÀO các ô nhập liệu
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() {//nap du lieu ban dau
     super.didChangeDependencies();
     if (!_isInitialized) {
-      // Lấy provider (không lắng nghe)
       final profile = Provider.of<ProfileProvider>(context, listen: false);
 
-      // Đặt giá trị cho các controller
       _nameController.text = profile.name ?? "";
       _weightController.text = profile.weight?.toString() ?? "";
       _heightController.text = profile.height?.toString() ?? "";
@@ -44,15 +39,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   @override
-  void dispose() {
-    // 2. Hủy các controller khi màn hình bị tắt
+  void dispose() {//giai phong tai nguyen 
     _nameController.dispose();
     _weightController.dispose();
     _heightController.dispose();
     super.dispose();
   }
 
-  // 3. Hàm hiển thị chọn ngày
+  //ham chon ngay sinh
   Future<void> _pickDate() async {
     final now = DateTime.now();
     final date = await showDatePicker(
@@ -68,16 +62,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  // 4. Hàm xử lý khi nhấn "Lưu"
+  // ham luu profile
   void _saveProfile() {
-    // Lấy provider (không lắng nghe, vì chỉ gọi hàm)
     final profile = Provider.of<ProfileProvider>(context, listen: false);
 
-    // Chuyển đổi text sang số (hoặc null nếu rỗng)
     final weight = double.tryParse(_weightController.text);
     final height = double.tryParse(_heightController.text);
 
-    // Gọi hàm cập nhật
     profile.updateProfile(
       name: _nameController.text,
       dob: _selectedDob,
@@ -85,7 +76,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       height: height,
     );
 
-    // Hiển thị thông báo đã lưu
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Đã lưu hồ sơ!"), backgroundColor: Colors.green),
     );
@@ -95,7 +85,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    // Chỉ trả về nội dung (vì Scaffold/AppBar đã ở main_screen)
     return ListView(
       padding: EdgeInsets.all(24),
       children: [
@@ -104,34 +93,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16.0),
 
-            // Ảnh [Image] bình thường với BoxFit.cover
             child: Image.asset(
               'assets/images/anha.png',
               height: 150,
               width: double.infinity,
-              fit: BoxFit.cover, // <-- Theo đúng yêu cầu của bạn
+              fit: BoxFit.cover, 
             ),
           ),
         ),
-        // 1. Tên
+        
         _buildTextField(
           controller: _nameController,
-          label: l10n.name, // (Sẽ thêm l10n sau)
+          label: l10n.name, 
           icon: Icons.person_outline,
         ),
         SizedBox(height: 20),
 
-        // 2. Ngày sinh
         _buildDatePicker(context, l10n),
         SizedBox(height: 20),
 
-        // 3. Cân nặng & Chiều cao (đặt trên 1 hàng)
         Row(
           children: [
             Expanded(
               child: _buildTextField(
                 controller: _weightController,
-                label: l10n.weightInKg, // (Sẽ thêm l10n sau)
+                label: l10n.weightInKg, 
                 icon: Icons.monitor_weight_outlined,
                 keyboardType: TextInputType.number,
               ),
@@ -140,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Expanded(
               child: _buildTextField(
                 controller: _heightController,
-                label: l10n.heightInCm, // (Sẽ thêm l10n sau)
+                label: l10n.heightInCm, 
                 icon: Icons.height_outlined,
                 keyboardType: TextInputType.number,
               ),
@@ -149,10 +135,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         SizedBox(height: 40),
 
-        // 4. Nút Lưu
         ElevatedButton(
           onPressed: _saveProfile,
-          child: Text(l10n.saveChanges), // (Sẽ thêm l10n sau)
+          child: Text(l10n.saveChanges), 
           style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(vertical: 16),
             textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -162,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // Widget helper cho ô nhập liệu
+  // Widget helper cho o nhap du lieu
   Widget _buildTextField({
     required TextEditingController controller,
     required String label,
@@ -180,16 +165,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // Widget helper cho ô chọn ngày
+  // Widget helper cho o chon ngay
   Widget _buildDatePicker(BuildContext context, AppLocalizations l10n) {
-    // Định dạng ngày (ví dụ: 29/10/2025)
     final dateFormat = DateFormat.yMd(l10n.localeName);
 
     return InkWell(
       onTap: _pickDate,
       child: InputDecorator(
         decoration: InputDecoration(
-          labelText: l10n.dateOfBirth, // (Sẽ thêm l10n sau)
+          labelText: l10n.dateOfBirth, 
           prefixIcon: Icon(Icons.calendar_today_outlined),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         ),

@@ -1,32 +1,30 @@
-// lib/providers/settings_provider.dart
 import 'package:flutter/material.dart';
 
 class SettingsProvider with ChangeNotifier {
-  // 1. Quản lý Theme (chế độ Sáng/Tối)
-  ThemeMode _themeMode = ThemeMode.system; // Mặc định: theo hệ thống
+  ThemeMode _themeMode = ThemeMode.system;
   ThemeMode get themeMode => _themeMode;
 
+  //ham doi che do sang/toi
   void updateThemeMode(ThemeMode? newMode) {
     if (newMode == null || newMode == _themeMode) return;
     _themeMode = newMode;
     notifyListeners();
-    // TODO: Lưu cài đặt này vào bộ nhớ (sẽ làm sau)
   }
 
-  // 2. Quản lý Ngôn ngữ
-  Locale _locale = Locale('vi'); // Mặc định: Tiếng Việt
+  Locale _locale = Locale('vi');
   Locale get locale => _locale;
 
+  //ham thay doi ngon ngu vi/en
   void updateLocale(Locale? newLocale) {
     if (newLocale == null || newLocale == _locale) return;
     _locale = newLocale;
     notifyListeners();
-    // TODO: Lưu cài đặt này vào bộ nhớ (sẽ làm sau)
   }
 
+  //ham reset cai dat
   void resetSettings() {
-    _themeMode = ThemeMode.system; // Mặc định hệ thống
-    _locale = Locale('vi'); // Mặc định Tiếng Việt
+    _themeMode = ThemeMode.system; 
+    _locale = Locale('vi'); 
     notifyListeners();
   }
 }

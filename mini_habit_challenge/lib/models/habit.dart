@@ -23,7 +23,8 @@ class Habit {
     this.totalDays,
   }) : id = Uuid().v4(), //tao ID ngau nhien
         completionLog = {};
-  
+
+  //getter dung de tra ve ngay ket thuc cho challenge
   DateTime? get endDate {
     if (type == HabitType.challenge && totalDays != null) {
       return startDate.add(Duration(days: totalDays! - 1));
@@ -31,19 +32,19 @@ class Habit {
     return null;
   }
 
+  //getter kiem tra ngay hien tai co hoan thanh chua
   bool get isCompletedToday {
     final today = _dateOnly(DateTime.now());
-    return completionLog[today] ?? false; // Trả về false nếu chưa có log
+    return completionLog[today] ?? false; 
   }
 
+  //getter dem chuoi ngay lien tiep hoan thanh
   int get streak {
     int currentStreak = 0;
-    // Bắt đầu từ hôm nay và đi lùi về quá khứ
+    
     DateTime dateToCheck = _dateOnly(DateTime.now());
 
-    // Nếu hôm nay chưa hoàn thành, chuỗi chắc chắn là 0
     if (!isCompletedToday) {
-       // ... nhưng nếu hôm qua hoàn thành, chuỗi là của ngày hôm qua
        dateToCheck = dateToCheck.subtract(Duration(days: 1));
     }
 
@@ -53,25 +54,26 @@ class Habit {
     }
     return currentStreak;
   }
+
+  //getter tien do thu thach
   double get progress {
     if (type == HabitType.daily || totalDays == null || totalDays == 0) return 0;
-    
-    // Đếm số ngày đã hoàn thành
+
     int daysCompleted = completionLog.values.where((completed) => completed == true).length;
     return daysCompleted / totalDays!;
   }
-  // Hàm tiện ích (private) để chuẩn hóa DateTime (chỉ lấy Ngày, bỏ Giờ/Phút)
-DateTime _dateOnly(DateTime dt) {
+
+  //ham private dung loai bo gio phut giai khoi DateTime
+  DateTime _dateOnly(DateTime dt) {
   return DateTime(dt.year, dt.month, dt.day);
-}
+  }
+
+  //getter kiem tra thu thach da hoan thanh chua
   bool get isChallengeFullyCompleted {
-    // 1. Nếu là 'daily' hoặc không có 'totalDays', nó không bao giờ hoàn thành
     if (type == HabitType.daily || totalDays == null || totalDays == 0) return false;
     
-    // 2. Đếm số ngày đã tick 'true'
     int completedCount = completionLog.values.where((v) => v == true).length;
     
-    // 3. So sánh với tổng số ngày
     return completedCount >= totalDays!;
   }
 }
